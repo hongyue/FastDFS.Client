@@ -75,7 +75,7 @@ namespace FastDFS.Client
          * return null if fail
          */
         protected String[] upload_file(String group_name, String local_filename, String file_ext_name,
-            NameValueCollection meta_list)
+                                       NameValueCollection meta_list)
         {
             byte cmd = ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_FILE;
             return this.upload_file(cmd, group_name, local_filename, file_ext_name, meta_list);
@@ -95,7 +95,7 @@ namespace FastDFS.Client
          * return null if fail
          */
         protected String[] upload_file(byte cmd, String group_name, String local_filename, String file_ext_name,
-            NameValueCollection meta_list)
+                                       NameValueCollection meta_list)
         {
             var f = new System.IO.FileInfo(local_filename);
             var fis = new FileStream(local_filename, FileMode.Open);
@@ -111,7 +111,7 @@ namespace FastDFS.Client
             try
             {
                 return do_upload_file(cmd, group_name, null, null, file_ext_name,
-                    f.Length, new UploadStream(fis, f.Length), meta_list);
+                        f.Length, new UploadStream(fis, f.Length), meta_list);
             }
             finally
             {
@@ -133,7 +133,7 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_file(byte[] file_buff, int offset, int Length, String file_ext_name,
-            NameValueCollection meta_list)
+                                    NameValueCollection meta_list)
         {
             String group_name = null;
             return this.upload_file(group_name, file_buff, offset, Length, file_ext_name, meta_list);
@@ -154,10 +154,10 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_file(String group_name, byte[] file_buff, int offset, int Length,
-            String file_ext_name, NameValueCollection meta_list)
+                                    String file_ext_name, NameValueCollection meta_list)
         {
             return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_FILE, group_name, null, null, file_ext_name,
-                Length, new UploadBuff(file_buff, offset, Length), meta_list);
+                    Length, new UploadBuff(file_buff, offset, Length), meta_list);
         }
 
         /**
@@ -190,10 +190,10 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_file(String group_name, byte[] file_buff,
-            String file_ext_name, NameValueCollection meta_list)
+                                    String file_ext_name, NameValueCollection meta_list)
         {
             return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_FILE, group_name, null, null, file_ext_name,
-                file_buff.Length, new UploadBuff(file_buff, 0, file_buff.Length), meta_list);
+                    file_buff.Length, new UploadBuff(file_buff, 0, file_buff.Length), meta_list);
         }
 
         /**
@@ -210,14 +210,14 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_file(String group_name, long file_size, IUploadCallback callback,
-            String file_ext_name, NameValueCollection meta_list)
+                                    String file_ext_name, NameValueCollection meta_list)
         {
             string master_filename = null;
             string prefix_name = null;
 
             return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_FILE, group_name, master_filename,
-                prefix_name,
-                file_ext_name, file_size, callback, meta_list);
+                    prefix_name,
+                    file_ext_name, file_size, callback, meta_list);
         }
 
         /**
@@ -235,7 +235,7 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_file(String group_name, String master_filename, String prefix_name,
-            String local_filename, String file_ext_name, NameValueCollection meta_list)
+                                    String local_filename, String file_ext_name, NameValueCollection meta_list)
         {
             if ((group_name == null || group_name.Length == 0) ||
                 (master_filename == null || master_filename.Length == 0) ||
@@ -259,8 +259,8 @@ namespace FastDFS.Client
             try
             {
                 return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_SLAVE_FILE, group_name, master_filename,
-                    prefix_name,
-                    file_ext_name, f.Length, new UploadStream(fis, f.Length), meta_list);
+                        prefix_name,
+                        file_ext_name, f.Length, new UploadStream(fis, f.Length), meta_list);
             }
             finally
             {
@@ -283,7 +283,7 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_file(String group_name, String master_filename, String prefix_name,
-            byte[] file_buff, String file_ext_name, NameValueCollection meta_list)
+                                    byte[] file_buff, String file_ext_name, NameValueCollection meta_list)
         {
             if ((group_name == null || group_name.Length == 0) ||
                 (master_filename == null || master_filename.Length == 0) ||
@@ -293,8 +293,8 @@ namespace FastDFS.Client
             }
 
             return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_SLAVE_FILE, group_name, master_filename,
-                prefix_name,
-                file_ext_name, file_buff.Length, new UploadBuff(file_buff, 0, file_buff.Length), meta_list);
+                    prefix_name,
+                    file_ext_name, file_buff.Length, new UploadBuff(file_buff, 0, file_buff.Length), meta_list);
         }
 
         /**
@@ -314,8 +314,8 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_file(String group_name, String master_filename, String prefix_name,
-            byte[] file_buff, int offset, int Length, String file_ext_name,
-            NameValueCollection meta_list)
+                                    byte[] file_buff, int offset, int Length, String file_ext_name,
+                                    NameValueCollection meta_list)
         {
             if ((group_name == null || group_name.Length == 0) ||
                 (master_filename == null || master_filename.Length == 0) ||
@@ -325,8 +325,8 @@ namespace FastDFS.Client
             }
 
             return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_SLAVE_FILE, group_name, master_filename,
-                prefix_name,
-                file_ext_name, Length, new UploadBuff(file_buff, offset, Length), meta_list);
+                    prefix_name,
+                    file_ext_name, Length, new UploadBuff(file_buff, offset, Length), meta_list);
         }
 
         /**
@@ -345,12 +345,12 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_file(String group_name, String master_filename,
-            String prefix_name, long file_size, IUploadCallback callback,
-            String file_ext_name, NameValueCollection meta_list)
+                                    String prefix_name, long file_size, IUploadCallback callback,
+                                    String file_ext_name, NameValueCollection meta_list)
         {
             return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_SLAVE_FILE, group_name, master_filename,
-                prefix_name,
-                file_ext_name, file_size, callback, meta_list);
+                    prefix_name,
+                    file_ext_name, file_size, callback, meta_list);
         }
 
         /**
@@ -365,7 +365,7 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_appender_file(String local_filename, String file_ext_name,
-            NameValueCollection meta_list)
+                                             NameValueCollection meta_list)
         {
             String group_name = null;
             return this.upload_appender_file(group_name, local_filename, file_ext_name, meta_list);
@@ -384,7 +384,7 @@ namespace FastDFS.Client
          * return null if fail
          */
         protected String[] upload_appender_file(String group_name, String local_filename, String file_ext_name,
-            NameValueCollection meta_list)
+                                                NameValueCollection meta_list)
         {
             byte cmd = ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_APPENDER_FILE;
             return this.upload_file(cmd, group_name, local_filename, file_ext_name, meta_list);
@@ -404,7 +404,7 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_appender_file(byte[] file_buff, int offset, int Length, String file_ext_name,
-            NameValueCollection meta_list)
+                                             NameValueCollection meta_list)
         {
             String group_name = null;
             return this.upload_appender_file(group_name, file_buff, offset, Length, file_ext_name, meta_list);
@@ -425,11 +425,11 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_appender_file(String group_name, byte[] file_buff, int offset, int Length,
-            String file_ext_name, NameValueCollection meta_list)
+                                             String file_ext_name, NameValueCollection meta_list)
         {
             return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_APPENDER_FILE, group_name, null, null,
-                file_ext_name,
-                Length, new UploadBuff(file_buff, offset, Length), meta_list);
+                    file_ext_name,
+                    Length, new UploadBuff(file_buff, offset, Length), meta_list);
         }
 
         /**
@@ -444,7 +444,7 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_appender_file(byte[] file_buff, String file_ext_name,
-            NameValueCollection meta_list)
+                                             NameValueCollection meta_list)
         {
             String group_name = null;
             return this.upload_appender_file(group_name, file_buff, 0, file_buff.Length, file_ext_name, meta_list);
@@ -463,11 +463,11 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_appender_file(String group_name, byte[] file_buff,
-            String file_ext_name, NameValueCollection meta_list)
+                                             String file_ext_name, NameValueCollection meta_list)
         {
             return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_APPENDER_FILE, group_name, null, null,
-                file_ext_name,
-                file_buff.Length, new UploadBuff(file_buff, 0, file_buff.Length), meta_list);
+                    file_ext_name,
+                    file_buff.Length, new UploadBuff(file_buff, 0, file_buff.Length), meta_list);
         }
 
         /**
@@ -484,14 +484,14 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String[] upload_appender_file(String group_name, long file_size, IUploadCallback callback,
-            String file_ext_name, NameValueCollection meta_list)
+                                             String file_ext_name, NameValueCollection meta_list)
         {
             String master_filename = null;
             String prefix_name = null;
 
             return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_APPENDER_FILE, group_name, master_filename,
-                prefix_name,
-                file_ext_name, file_size, callback, meta_list);
+                    prefix_name,
+                    file_ext_name, file_size, callback, meta_list);
         }
 
         /**
@@ -510,7 +510,7 @@ namespace FastDFS.Client
             try
             {
                 return this.do_append_file(group_name, appender_filename, f.Length,
-                    new UploadStream(fis, f.Length));
+                        new UploadStream(fis, f.Length));
             }
             finally
             {
@@ -529,7 +529,7 @@ namespace FastDFS.Client
         public int append_file(String group_name, String appender_filename, byte[] file_buff)
         {
             return this.do_append_file(group_name, appender_filename, file_buff.Length,
-                new UploadBuff(file_buff, 0, file_buff.Length));
+                    new UploadBuff(file_buff, 0, file_buff.Length));
         }
 
         /**
@@ -543,10 +543,10 @@ namespace FastDFS.Client
          * @return 0 for success, != 0 for error (error no)
          */
         public int append_file(String group_name, String appender_filename,
-            byte[] file_buff, int offset, int Length)
+                               byte[] file_buff, int offset, int Length)
         {
             return this.do_append_file(group_name, appender_filename, Length,
-                new UploadBuff(file_buff, offset, Length));
+                    new UploadBuff(file_buff, offset, Length));
         }
 
         /**
@@ -559,7 +559,7 @@ namespace FastDFS.Client
          * @return 0 for success, != 0 for error (error no)
          */
         public int append_file(String group_name, String appender_filename,
-            long file_size, IUploadCallback callback)
+                               long file_size, IUploadCallback callback)
         {
             return this.do_append_file(group_name, appender_filename, file_size, callback);
         }
@@ -574,7 +574,7 @@ namespace FastDFS.Client
          * @return 0 for success, != 0 for error (error no)
          */
         public int modify_file(String group_name, String appender_filename,
-            long file_offset, String local_filename)
+                               long file_offset, String local_filename)
         {
             var f = new System.IO.FileInfo(local_filename);
             var fis = new FileStream(local_filename, FileMode.Open, FileAccess.ReadWrite);
@@ -582,7 +582,7 @@ namespace FastDFS.Client
             try
             {
                 return this.do_modify_file(group_name, appender_filename, file_offset,
-                    f.Length, new UploadStream(fis, f.Length));
+                        f.Length, new UploadStream(fis, f.Length));
             }
             finally
             {
@@ -600,10 +600,10 @@ namespace FastDFS.Client
          * @return 0 for success, != 0 for error (error no)
          */
         public int modify_file(String group_name, String appender_filename,
-            long file_offset, byte[] file_buff)
+                               long file_offset, byte[] file_buff)
         {
             return this.do_modify_file(group_name, appender_filename, file_offset,
-                file_buff.Length, new UploadBuff(file_buff, 0, file_buff.Length));
+                    file_buff.Length, new UploadBuff(file_buff, 0, file_buff.Length));
         }
 
         /**
@@ -618,10 +618,10 @@ namespace FastDFS.Client
          * @return 0 for success, != 0 for error (error no)
          */
         public int modify_file(String group_name, String appender_filename,
-            long file_offset, byte[] file_buff, int buffer_offset, int buffer_length)
+                               long file_offset, byte[] file_buff, int buffer_offset, int buffer_length)
         {
             return this.do_modify_file(group_name, appender_filename, file_offset,
-                buffer_length, new UploadBuff(file_buff, buffer_offset, buffer_length));
+                    buffer_length, new UploadBuff(file_buff, buffer_offset, buffer_length));
         }
 
         /**
@@ -635,10 +635,10 @@ namespace FastDFS.Client
          * @return 0 for success, != 0 for error (error no)
          */
         public int modify_file(String group_name, String appender_filename,
-            long file_offset, long modify_size, IUploadCallback callback)
+                               long file_offset, long modify_size, IUploadCallback callback)
         {
             return this.do_modify_file(group_name, appender_filename, file_offset,
-                modify_size, callback);
+                    modify_size, callback);
         }
 
         /**
@@ -658,9 +658,9 @@ namespace FastDFS.Client
          * return null if fail
          */
         protected String[] do_upload_file(byte cmd, String group_name, String master_filename,
-            String prefix_name, String file_ext_name, long file_size,
-            IUploadCallback callback,
-            NameValueCollection meta_list)
+                                          String prefix_name, String file_ext_name, long file_size,
+                                          IUploadCallback callback,
+                                          NameValueCollection meta_list)
         {
             byte[] header;
             byte[] ext_name_bs;
@@ -704,7 +704,7 @@ namespace FastDFS.Client
                     }
 
                     Array.Copy(bs, 0, ext_name_bs,
-                        0, ext_name_len);
+                            0, ext_name_len);
                 }
 
                 if (bUploadSlave)
@@ -726,7 +726,7 @@ namespace FastDFS.Client
                     sizeBytes = new byte[1 + 1 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE];
                     body_len = sizeBytes.Length + ProtoCommon.FDFS_FILE_EXT_NAME_MAX_LEN + file_size;
 
-                    sizeBytes[0] = (byte) this.storageServer.getStorePathIndex();
+                    sizeBytes[0] = (byte)this.storageServer.getStorePathIndex();
                     offset = 1;
                 }
 
@@ -734,8 +734,8 @@ namespace FastDFS.Client
                 Array.Copy(hexLenBytes, 0, sizeBytes, offset, hexLenBytes.Length);
 
                 var outputStream = new NetworkStream(storageSocket);
-                header = ProtoCommon.packHeader(cmd, body_len, (byte) 0);
-                byte[] wholePkg = new byte[(int) (header.Length + body_len - file_size)];
+                header = ProtoCommon.packHeader(cmd, body_len, (byte)0);
+                byte[] wholePkg = new byte[(int)(header.Length + body_len - file_size)];
                 Array.Copy(header, 0, wholePkg, 0, header.Length);
                 Array.Copy(sizeBytes, 0, wholePkg, header.Length, sizeBytes.Length);
                 offset = header.Length + sizeBytes.Length;
@@ -770,13 +770,13 @@ namespace FastDFS.Client
 
                 outputStream.Write(wholePkg, 0, wholePkg.Length);
 
-                if ((this.errno = (byte) callback.send(outputStream)) != 0)
+                if ((this.errno = (byte)callback.send(outputStream)) != 0)
                 {
                     return null;
                 }
 
                 ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(outputStream,
-                    ProtoCommon.STORAGE_PROTO_CMD_RESP, -1);
+                        ProtoCommon.STORAGE_PROTO_CMD_RESP, -1);
                 this.errno = pkgInfo.errno;
                 if (pkgInfo.errno != 0)
                 {
@@ -789,10 +789,10 @@ namespace FastDFS.Client
                                                ProtoCommon.FDFS_GROUP_NAME_MAX_LEN);
                 }
 
-                new_group_name = encoder.GetString(pkgInfo.body, 0, 
-                    ProtoCommon.FDFS_GROUP_NAME_MAX_LEN).Trim();
+                new_group_name = encoder.GetString(pkgInfo.body, 0,
+                        ProtoCommon.FDFS_GROUP_NAME_MAX_LEN).Trim('\0');
                 remote_filename = encoder.GetString(pkgInfo.body, ProtoCommon.FDFS_GROUP_NAME_MAX_LEN,
-                    pkgInfo.body.Length - ProtoCommon.FDFS_GROUP_NAME_MAX_LEN);
+                        pkgInfo.body.Length - ProtoCommon.FDFS_GROUP_NAME_MAX_LEN);
                 String[] results = new String[2];
                 results[0] = new_group_name;
                 results[1] = remote_filename;
@@ -806,7 +806,7 @@ namespace FastDFS.Client
                 try
                 {
                     result = this.set_metadata(new_group_name, remote_filename,
-                        meta_list, ProtoCommon.STORAGE_SET_METADATA_FLAG_OVERWRITE);
+                            meta_list, ProtoCommon.STORAGE_SET_METADATA_FLAG_OVERWRITE);
                 }
                 catch (IOException ex)
                 {
@@ -818,7 +818,7 @@ namespace FastDFS.Client
                     outputStream.Close();
                     if (result != 0)
                     {
-                        this.errno = (byte) result;
+                        this.errno = (byte)result;
                         this.delete_file(new_group_name, remote_filename);
                     }
                 }
@@ -873,7 +873,7 @@ namespace FastDFS.Client
          * @return return true for success, false for fail
          */
         protected int do_append_file(String group_name, String appender_filename,
-            long file_size, IUploadCallback callback)
+                                     long file_size, IUploadCallback callback)
         {
             byte[] header;
             bool bNewConnection;
@@ -901,9 +901,9 @@ namespace FastDFS.Client
 
                 body_len = 2 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE + appenderFilenameBytes.Length + file_size;
 
-                header = ProtoCommon.packHeader(ProtoCommon.STORAGE_PROTO_CMD_APPEND_FILE, body_len, (byte) 0);
+                header = ProtoCommon.packHeader(ProtoCommon.STORAGE_PROTO_CMD_APPEND_FILE, body_len, (byte)0);
 
-                byte[] wholePkg = new byte[(int) (header.Length + body_len - file_size)];
+                byte[] wholePkg = new byte[(int)(header.Length + body_len - file_size)];
 
                 Array.Copy(header, 0, wholePkg, 0, header.Length);
                 offset = header.Length;
@@ -918,18 +918,17 @@ namespace FastDFS.Client
 
                 using (var outputStream = new NetworkStream(storageSocket))
                 {
-
                     Array.Copy(appenderFilenameBytes, 0, wholePkg,
-                        offset, appenderFilenameBytes.Length);
+                            offset, appenderFilenameBytes.Length);
                     offset += appenderFilenameBytes.Length;
                     outputStream.Write(wholePkg, 0, wholePkg.Length);
-                    if ((this.errno = (byte) callback.send(outputStream)) != 0)
+                    if ((this.errno = (byte)callback.send(outputStream)) != 0)
                     {
                         return this.errno;
                     }
 
                     ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(outputStream,
-                        ProtoCommon.STORAGE_PROTO_CMD_RESP, 0);
+                            ProtoCommon.STORAGE_PROTO_CMD_RESP, 0);
                     this.errno = pkgInfo.errno;
                     if (pkgInfo.errno != 0)
                     {
@@ -988,7 +987,7 @@ namespace FastDFS.Client
          * @return return true for success, false for fail
          */
         protected int do_modify_file(String group_name, String appender_filename,
-            long file_offset, long modify_size, IUploadCallback callback)
+                                     long file_offset, long modify_size, IUploadCallback callback)
         {
             byte[] header;
             bool bNewConnection;
@@ -1016,9 +1015,9 @@ namespace FastDFS.Client
 
                 body_len = 3 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE + appenderFilenameBytes.Length + modify_size;
 
-                header = ProtoCommon.packHeader(ProtoCommon.STORAGE_PROTO_CMD_MODIFY_FILE, body_len, (byte) 0);
+                header = ProtoCommon.packHeader(ProtoCommon.STORAGE_PROTO_CMD_MODIFY_FILE, body_len, (byte)0);
 
-                byte[] wholePkg = new byte[(int) (header.Length + body_len - modify_size)];
+                byte[] wholePkg = new byte[(int)(header.Length + body_len - modify_size)];
 
                 Array.Copy(header, 0, wholePkg, 0, header.Length);
                 offset = header.Length;
@@ -1040,13 +1039,13 @@ namespace FastDFS.Client
                     Array.Copy(appenderFilenameBytes, 0, wholePkg, offset, appenderFilenameBytes.Length);
                     offset += appenderFilenameBytes.Length;
                     outputStream.Write(wholePkg, 0, wholePkg.Length);
-                    if ((this.errno = (byte) callback.send(outputStream)) != 0)
+                    if ((this.errno = (byte)callback.send(outputStream)) != 0)
                     {
                         return this.errno;
                     }
 
                     ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(outputStream,
-                        ProtoCommon.STORAGE_PROTO_CMD_RESP, 0);
+                            ProtoCommon.STORAGE_PROTO_CMD_RESP, 0);
                     this.errno = pkgInfo.errno;
                     if (pkgInfo.errno != 0)
                     {
@@ -1112,7 +1111,7 @@ namespace FastDFS.Client
                 using (var outputStream = new NetworkStream(storageSocket))
                 {
                     ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(outputStream,
-                        ProtoCommon.STORAGE_PROTO_CMD_RESP, 0);
+                            ProtoCommon.STORAGE_PROTO_CMD_RESP, 0);
 
                     this.errno = pkgInfo.errno;
                     return pkgInfo.errno;
@@ -1178,7 +1177,7 @@ namespace FastDFS.Client
          * @return 0 for success, none zero for fail (error code)
          */
         public int truncate_file(String group_name, String appender_filename,
-            long truncated_file_size)
+                                 long truncated_file_size)
         {
             byte[] header;
             bool bNewConnection;
@@ -1205,7 +1204,7 @@ namespace FastDFS.Client
 
                 body_len = 2 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE + appenderFilenameBytes.Length;
 
-                header = ProtoCommon.packHeader(ProtoCommon.STORAGE_PROTO_CMD_TRUNCATE_FILE, body_len, (byte) 0);
+                header = ProtoCommon.packHeader(ProtoCommon.STORAGE_PROTO_CMD_TRUNCATE_FILE, body_len, (byte)0);
 
                 byte[] wholePkg = new byte[header.Length + body_len];
 
@@ -1222,12 +1221,11 @@ namespace FastDFS.Client
 
                 using (var outputStream = new NetworkStream(storageSocket))
                 {
-
                     Array.Copy(appenderFilenameBytes, 0, wholePkg, offset, appenderFilenameBytes.Length);
                     offset += appenderFilenameBytes.Length;
                     outputStream.Write(wholePkg, 0, wholePkg.Length);
                     ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(outputStream,
-                        ProtoCommon.STORAGE_PROTO_CMD_RESP, 0);
+                            ProtoCommon.STORAGE_PROTO_CMD_RESP, 0);
                     this.errno = pkgInfo.errno;
                     return pkgInfo.errno;
                 }
@@ -1304,16 +1302,18 @@ namespace FastDFS.Client
                 ProtoCommon.RecvPackageInfo pkgInfo;
 
                 this.send_download_package(group_name, remote_filename, file_offset, download_bytes);
-                pkgInfo = ProtoCommon.recvPackage(storageSocket.getInputStream(),
-                    ProtoCommon.STORAGE_PROTO_CMD_RESP, -1);
-
-                this.errno = pkgInfo.errno;
-                if (pkgInfo.errno != 0)
+                using (var s = new NetworkStream(storageSocket))
                 {
-                    return null;
-                }
+                    pkgInfo = ProtoCommon.recvPackage(s, ProtoCommon.STORAGE_PROTO_CMD_RESP, -1);
 
-                return pkgInfo.body;
+                    this.errno = pkgInfo.errno;
+                    if (pkgInfo.errno != 0)
+                    {
+                        return null;
+                    }
+
+                    return pkgInfo.body;
+                }
             }
             catch (IOException ex)
             {
@@ -1325,7 +1325,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1345,7 +1344,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1364,12 +1362,12 @@ namespace FastDFS.Client
          * @return 0 success, return none zero errno if fail
          */
         public int download_file(String group_name, String remote_filename,
-            String local_filename)
+                                 String local_filename)
         {
             long file_offset = 0;
             long download_bytes = 0;
             return this.download_file(group_name, remote_filename,
-                file_offset, download_bytes, local_filename);
+                    file_offset, download_bytes, local_filename);
         }
 
         /**
@@ -1383,50 +1381,53 @@ namespace FastDFS.Client
          * @return 0 success, return none zero errno if fail
          */
         public int download_file(String group_name, String remote_filename,
-            long file_offset, long download_bytes,
-            String local_filename)
+                                 long file_offset, long download_bytes,
+                                 String local_filename)
         {
             bool bNewConnection = this.newReadableStorageConnection(group_name, remote_filename);
             Socket storageSocket = this.storageServer.getSocket();
             try
             {
                 ProtoCommon.RecvHeaderInfo header;
-                FileOutputStream out = new FileOutputStream(local_filename);
+                var outputStream = new FileStream(local_filename, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                 try
                 {
                     this.errno = 0;
                     this.send_download_package(group_name, remote_filename, file_offset, download_bytes);
 
-                    InputStream in = storageSocket.getInputStream();
-                    header = ProtoCommon.recvHeader(in, ProtoCommon.STORAGE_PROTO_CMD_RESP, -1);
-                    this.errno = header.errno;
-                    if (header.errno != 0)
+                    using (var inputStream = new NetworkStream(storageSocket))
                     {
-                        return header.errno;
-                    }
-
-                    byte[]
-                        buff = new byte[256 * 1024];
-                    long remainBytes = header.body_len;
-                    int bytes;
-
-                    //System.out.println("expect_body_len=" + header.body_len);
-
-                    while (remainBytes > 0)
-                    {
-                        if ((bytes = in.read(buff, 0,
-                            remainBytes > buff.Length ? buff.Length : (int) remainBytes)) < 0) {
-                            throw new IOException("recv package size " + (header.body_len - remainBytes) + " != " +
-                                                  header.body_len);
+                        header = ProtoCommon.recvHeader(inputStream, ProtoCommon.STORAGE_PROTO_CMD_RESP, -1);
+                        this.errno = header.errno;
+                        if (header.errno != 0)
+                        {
+                            return header.errno;
                         }
 
-                        out.write(buff, 0, bytes);
-                        remainBytes -= bytes;
+                        byte[]
+                                buff = new byte[256 * 1024];
+                        long remainBytes = header.body_len;
+                        int bytes;
 
-                        //System.out.println("totalBytes=" + (header.body_len - remainBytes));
+                        //System.out.println("expect_body_len=" + header.body_len);
+
+                        while (remainBytes > 0)
+                        {
+                            if ((bytes = inputStream.Read(buff, 0,
+                                         remainBytes > buff.Length ? buff.Length : (int)remainBytes)) < 0)
+                            {
+                                throw new IOException("recv package size " + (header.body_len - remainBytes) + " != " +
+                                                      header.body_len);
+                            }
+
+                            outputStream.Write(buff, 0, bytes);
+                            remainBytes -= bytes;
+
+                            //System.out.println("totalBytes=" + (header.body_len - remainBytes));
+                        }
+
+                        return 0;
                     }
-
-                    return 0;
                 }
                 catch (IOException ex)
                 {
@@ -1439,10 +1440,9 @@ namespace FastDFS.Client
                 }
                 finally
                 {
-                    out.close();
                     if (this.errno != 0)
                     {
-                        (new File(local_filename)).delete();
+                        File.Delete(local_filename);
                     }
                 }
             }
@@ -1456,7 +1456,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1476,7 +1475,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1494,13 +1492,12 @@ namespace FastDFS.Client
          * @param callback        call callback.recv() when data arrive
          * @return 0 success, return none zero errno if fail
          */
-        public int download_file(String group_name, String remote_filename,
-            DownloadCallback callback)
+        public int download_file(String group_name, String remote_filename, IDownloadCallback callback)
         {
             long file_offset = 0;
             long download_bytes = 0;
             return this.download_file(group_name, remote_filename,
-                file_offset, download_bytes, callback);
+                    file_offset, download_bytes, callback);
         }
 
         /**
@@ -1513,9 +1510,8 @@ namespace FastDFS.Client
          * @param callback        call callback.recv() when data arrive
          * @return 0 success, return none zero errno if fail
          */
-        public int download_file(String group_name, String remote_filename,
-            long file_offset, long download_bytes,
-            DownloadCallback callback)
+        public int download_file(String group_name, String remote_filename, long file_offset, long download_bytes,
+                                 IDownloadCallback callback)
         {
             int result;
             bool bNewConnection = this.newReadableStorageConnection(group_name, remote_filename);
@@ -1526,40 +1522,43 @@ namespace FastDFS.Client
                 ProtoCommon.RecvHeaderInfo header;
                 this.send_download_package(group_name, remote_filename, file_offset, download_bytes);
 
-                InputStream in = storageSocket.getInputStream();
-                header = ProtoCommon.recvHeader(in, ProtoCommon.STORAGE_PROTO_CMD_RESP, -1);
-                this.errno = header.errno;
-                if (header.errno != 0)
+                using (var inputStream = new NetworkStream(storageSocket))
                 {
-                    return header.errno;
-                }
-
-                byte[]
-                    buff = new byte[2 * 1024];
-                long remainBytes = header.body_len;
-                int bytes;
-
-                //System.out.println("expect_body_len=" + header.body_len);
-
-                while (remainBytes > 0)
-                {
-                    if ((bytes = in.read(buff, 0, remainBytes > buff.Length ? buff.Length : (int) remainBytes)) < 0) {
-                        throw new IOException("recv package size " + (header.body_len - remainBytes) + " != " +
-                                              header.body_len);
-                    }
-
-                    if ((result = callback.recv(header.body_len, buff, bytes)) != 0)
+                    header = ProtoCommon.recvHeader(inputStream, ProtoCommon.STORAGE_PROTO_CMD_RESP, -1);
+                    this.errno = header.errno;
+                    if (header.errno != 0)
                     {
-                        this.errno = (byte) result;
-                        return result;
+                        return header.errno;
                     }
 
-                    remainBytes -= bytes;
+                    byte[] buff = new byte[2 * 1024];
+                    long remainBytes = header.body_len;
+                    int bytes;
 
-                    //System.out.println("totalBytes=" + (header.body_len - remainBytes));
+                    //System.out.println("expect_body_len=" + header.body_len);
+
+                    while (remainBytes > 0)
+                    {
+                        if ((bytes = inputStream.Read(buff, 0,
+                                     remainBytes > buff.Length ? buff.Length : (int)remainBytes)) < 0)
+                        {
+                            throw new IOException("recv package size " + (header.body_len - remainBytes) + " != " +
+                                                  header.body_len);
+                        }
+
+                        if ((result = callback.recv(header.body_len, buff, bytes)) != 0)
+                        {
+                            this.errno = (byte)result;
+                            return result;
+                        }
+
+                        remainBytes -= bytes;
+
+                        //System.out.println("totalBytes=" + (header.body_len - remainBytes));
+                    }
+
+                    return 0;
                 }
-
-                return 0;
             }
             catch (IOException ex)
             {
@@ -1571,7 +1570,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1591,7 +1589,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1608,7 +1605,7 @@ namespace FastDFS.Client
          * @param remote_filename filename on storage server
          * @return meta info array, return null if fail
          */
-        public NameValuePair[] get_metadata(String group_name, String remote_filename)
+        public NameValueCollection get_metadata(String group_name, String remote_filename)
         {
             bool bNewConnection = this.newUpdatableStorageConnection(group_name, remote_filename);
             Socket storageSocket = this.storageServer.getSocket();
@@ -1618,16 +1615,19 @@ namespace FastDFS.Client
                 ProtoCommon.RecvPackageInfo pkgInfo;
 
                 this.send_package(ProtoCommon.STORAGE_PROTO_CMD_GET_METADATA, group_name, remote_filename);
-                pkgInfo = ProtoCommon.recvPackage(storageSocket.getInputStream(),
-                    ProtoCommon.STORAGE_PROTO_CMD_RESP, -1);
-
-                this.errno = pkgInfo.errno;
-                if (pkgInfo.errno != 0)
+                using (var s = new NetworkStream(storageSocket))
                 {
-                    return null;
-                }
+                    pkgInfo = ProtoCommon.recvPackage(s, ProtoCommon.STORAGE_PROTO_CMD_RESP, -1);
 
-                return ProtoCommon.split_metadata(new String(pkgInfo.body, ClientGlobal.g_charset));
+                    this.errno = pkgInfo.errno;
+                    if (pkgInfo.errno != 0)
+                    {
+                        return null;
+                    }
+
+                    var encoder = Encoding.GetEncoding(ClientGlobal.g_charset);
+                    return ProtoCommon.split_metadata(encoder.GetString(pkgInfo.body));
+                }
             }
             catch (IOException ex)
             {
@@ -1639,7 +1639,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1659,7 +1658,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1683,7 +1681,7 @@ namespace FastDFS.Client
          * @return 0 for success, !=0 fail (error code)
          */
         public int set_metadata(String group_name, String remote_filename,
-            NameValueCollection meta_list, byte op_flag)
+                                NameValueCollection meta_list, byte op_flag)
         {
             bool bNewConnection = this.newUpdatableStorageConnection(group_name, remote_filename);
             Socket storageSocket = this.storageServer.getSocket();
@@ -1698,6 +1696,7 @@ namespace FastDFS.Client
                 int groupLen;
                 byte[] sizeBytes;
                 ProtoCommon.RecvPackageInfo pkgInfo;
+                var encoder = Encoding.GetEncoding(ClientGlobal.g_charset);
 
                 if (meta_list == null)
                 {
@@ -1705,12 +1704,12 @@ namespace FastDFS.Client
                 }
                 else
                 {
-                    meta_buff = ProtoCommon.pack_metadata(meta_list).getBytes(ClientGlobal.g_charset);
+                    meta_buff = encoder.GetBytes(ProtoCommon.pack_metadata(meta_list));
                 }
 
-                filenameBytes = remote_filename.getBytes(ClientGlobal.g_charset);
+                filenameBytes = encoder.GetBytes(remote_filename);
                 sizeBytes = new byte[2 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE];
-                Arrays.fill(sizeBytes, (byte) 0);
+                sizeBytes.Fill<byte>(0);
 
                 bs = ProtoCommon.long2buff(filenameBytes.Length);
                 Array.Copy(bs, 0, sizeBytes, 0, bs.Length);
@@ -1718,9 +1717,9 @@ namespace FastDFS.Client
                 Array.Copy(bs, 0, sizeBytes, ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE, bs.Length);
 
                 groupBytes = new byte[ProtoCommon.FDFS_GROUP_NAME_MAX_LEN];
-                bs = group_name.getBytes(ClientGlobal.g_charset);
+                bs = encoder.GetBytes(group_name);
 
-                Arrays.fill(groupBytes, (byte) 0);
+                groupBytes.Fill<byte>(0);
                 if (bs.Length <= groupBytes.Length)
                 {
                     groupLen = bs.Length;
@@ -1733,28 +1732,29 @@ namespace FastDFS.Client
                 Array.Copy(bs, 0, groupBytes, 0, groupLen);
 
                 header = ProtoCommon.packHeader(ProtoCommon.STORAGE_PROTO_CMD_SET_METADATA,
-                    2 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE + 1 + groupBytes.Length
-                    + filenameBytes.Length + meta_buff.Length, (byte) 0);
-                OutputStream out = storageSocket.getOutputStream();
-                byte[] wholePkg =
-                    new byte[header.Length + sizeBytes.Length + 1 + groupBytes.Length + filenameBytes.Length];
-                Array.Copy(header, 0, wholePkg, 0, header.Length);
-                Array.Copy(sizeBytes, 0, wholePkg, header.Length, sizeBytes.Length);
-                wholePkg[header.Length + sizeBytes.Length] = op_flag;
-                Array.Copy(groupBytes, 0, wholePkg, header.Length + sizeBytes.Length + 1, groupBytes.Length);
-                Array.Copy(filenameBytes, 0, wholePkg, header.Length + sizeBytes.Length + 1 + groupBytes.Length,
-                        filenameBytes.Length);
-                    out.write(wholePkg);
-                if (meta_buff.Length > 0)
+                        2 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE + 1 + groupBytes.Length
+                        + filenameBytes.Length + meta_buff.Length, (byte)0);
+                using (var outputStream = new NetworkStream(storageSocket))
                 {
-                    out.write(meta_buff);
+                    byte[] wholePkg =
+                            new byte[header.Length + sizeBytes.Length + 1 + groupBytes.Length + filenameBytes.Length];
+                    Array.Copy(header, 0, wholePkg, 0, header.Length);
+                    Array.Copy(sizeBytes, 0, wholePkg, header.Length, sizeBytes.Length);
+                    wholePkg[header.Length + sizeBytes.Length] = op_flag;
+                    Array.Copy(groupBytes, 0, wholePkg, header.Length + sizeBytes.Length + 1, groupBytes.Length);
+                    Array.Copy(filenameBytes, 0, wholePkg, header.Length + sizeBytes.Length + 1 + groupBytes.Length,
+                            filenameBytes.Length);
+                    outputStream.Write(wholePkg, 0, wholePkg.Length);
+                    if (meta_buff.Length > 0)
+                    {
+                        outputStream.Write(meta_buff, 0, meta_buff.Length);
+                    }
+
+                    pkgInfo = ProtoCommon.recvPackage(outputStream, ProtoCommon.STORAGE_PROTO_CMD_RESP, 0);
+
+                    this.errno = pkgInfo.errno;
+                    return pkgInfo.errno;
                 }
-
-                pkgInfo = ProtoCommon.recvPackage(storageSocket.getInputStream(),
-                    ProtoCommon.STORAGE_PROTO_CMD_RESP, 0);
-
-                this.errno = pkgInfo.errno;
-                return pkgInfo.errno;
             }
             catch (IOException ex)
             {
@@ -1766,7 +1766,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1786,7 +1785,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1805,19 +1803,19 @@ namespace FastDFS.Client
          */
         public FileInfo get_file_info(String group_name, String remote_filename)
         {
-            if (remote_filename.Length() < ProtoCommon.FDFS_FILE_PATH_LEN + ProtoCommon.FDFS_FILENAME_BASE64_LENGTH
+            if (remote_filename.Length < ProtoCommon.FDFS_FILE_PATH_LEN + ProtoCommon.FDFS_FILENAME_BASE64_LENGTH
                                                                           + ProtoCommon.FDFS_FILE_EXT_NAME_MAX_LEN + 1)
             {
                 this.errno = ProtoCommon.ERR_NO_EINVAL;
                 return null;
             }
 
-            byte[] buff = base64.decodeAuto(remote_filename.substring(ProtoCommon.FDFS_FILE_PATH_LEN,
-                ProtoCommon.FDFS_FILE_PATH_LEN + ProtoCommon.FDFS_FILENAME_BASE64_LENGTH));
+            byte[] buff = Convert.FromBase64String(remote_filename.Substring(ProtoCommon.FDFS_FILE_PATH_LEN,
+                    ProtoCommon.FDFS_FILE_PATH_LEN + ProtoCommon.FDFS_FILENAME_BASE64_LENGTH));
 
             long file_size = ProtoCommon.buff2long(buff, 4 * 2);
-            if (((remote_filename.Length() > ProtoCommon.TRUNK_LOGIC_FILENAME_LENGTH) ||
-                 ((remote_filename.Length() > ProtoCommon.NORMAL_LOGIC_FILENAME_LENGTH) &&
+            if (((remote_filename.Length > ProtoCommon.TRUNK_LOGIC_FILENAME_LENGTH) ||
+                 ((remote_filename.Length > ProtoCommon.NORMAL_LOGIC_FILENAME_LENGTH) &&
                   ((file_size & ProtoCommon.TRUNK_FILE_MARK_SIZE) == 0))) ||
                 ((file_size & ProtoCommon.APPENDER_FILE_SIZE) != 0))
             {
@@ -1865,11 +1863,12 @@ namespace FastDFS.Client
                 int groupLen;
                 ProtoCommon.RecvPackageInfo pkgInfo;
 
-                filenameBytes = remote_filename.getBytes(ClientGlobal.g_charset);
+                var encoder = Encoding.GetEncoding(ClientGlobal.g_charset);
+                filenameBytes = encoder.GetBytes(remote_filename);
                 groupBytes = new byte[ProtoCommon.FDFS_GROUP_NAME_MAX_LEN];
-                bs = group_name.getBytes(ClientGlobal.g_charset);
+                bs = encoder.GetBytes(group_name);
 
-                Arrays.fill(groupBytes, (byte) 0);
+                groupBytes.Fill<byte>(0);
                 if (bs.Length <= groupBytes.Length)
                 {
                     groupLen = bs.Length;
@@ -1882,31 +1881,33 @@ namespace FastDFS.Client
                 Array.Copy(bs, 0, groupBytes, 0, groupLen);
 
                 header = ProtoCommon.packHeader(ProtoCommon.STORAGE_PROTO_CMD_QUERY_FILE_INFO,
-                    +groupBytes.Length + filenameBytes.Length, (byte) 0);
-                OutputStream out = storageSocket.getOutputStream();
-                byte[] wholePkg = new byte[header.Length + groupBytes.Length + filenameBytes.Length];
-                Array.Copy(header, 0, wholePkg, 0, header.Length);
-                Array.Copy(groupBytes, 0, wholePkg, header.Length, groupBytes.Length);
-                Array.Copy(filenameBytes, 0, wholePkg, header.Length + groupBytes.Length, filenameBytes.Length);
-                    out.write(wholePkg);
+                        +groupBytes.Length + filenameBytes.Length, (byte)0);
 
-                pkgInfo = ProtoCommon.recvPackage(storageSocket.getInputStream(),
-                    ProtoCommon.STORAGE_PROTO_CMD_RESP,
-                    3 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE +
-                    ProtoCommon.FDFS_IPADDR_SIZE);
-
-                this.errno = pkgInfo.errno;
-                if (pkgInfo.errno != 0)
+                using (var outputStream = new NetworkStream(storageSocket))
                 {
-                    return null;
-                }
+                    byte[] wholePkg = new byte[header.Length + groupBytes.Length + filenameBytes.Length];
+                    Array.Copy(header, 0, wholePkg, 0, header.Length);
+                    Array.Copy(groupBytes, 0, wholePkg, header.Length, groupBytes.Length);
+                    Array.Copy(filenameBytes, 0, wholePkg, header.Length + groupBytes.Length, filenameBytes.Length);
+                    outputStream.Write(wholePkg, 0, wholePkg.Length);
 
-                long file_size = ProtoCommon.buff2long(pkgInfo.body, 0);
-                int create_timestamp = (int) ProtoCommon.buff2long(pkgInfo.body, ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
-                int crc32 = (int) ProtoCommon.buff2long(pkgInfo.body, 2 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
-                String source_ip_addr = (new String(pkgInfo.body, 3 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE,
-                    ProtoCommon.FDFS_IPADDR_SIZE)).trim();
-                return new FileInfo(file_size, create_timestamp, crc32, source_ip_addr);
+                    pkgInfo = ProtoCommon.recvPackage(outputStream, ProtoCommon.STORAGE_PROTO_CMD_RESP,
+                            3 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE + ProtoCommon.FDFS_IPADDR_SIZE);
+
+                    this.errno = pkgInfo.errno;
+                    if (pkgInfo.errno != 0)
+                    {
+                        return null;
+                    }
+
+                    long file_size = ProtoCommon.buff2long(pkgInfo.body, 0);
+                    int create_timestamp =
+                            (int)ProtoCommon.buff2long(pkgInfo.body, ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
+                    int crc32 = (int)ProtoCommon.buff2long(pkgInfo.body, 2 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE);
+                    String source_ip_addr = Encoding.ASCII.GetString(pkgInfo.body, 3 * ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE,
+                                                        ProtoCommon.FDFS_IPADDR_SIZE).Trim('\0');
+                    return new FileInfo(file_size, create_timestamp, crc32, source_ip_addr);
+                }
             }
             catch (IOException ex)
             {
@@ -1918,7 +1919,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1938,7 +1938,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                     finally
                     {
@@ -1966,7 +1965,7 @@ namespace FastDFS.Client
                 this.storageServer = tracker.getStoreStorage(this.trackerServer, group_name);
                 if (this.storageServer == null)
                 {
-                    throw new MyException("getStoreStorage fail, errno code: " + tracker.getErrorCode());
+                    throw new FastDfsException("getStoreStorage fail, errno code: " + tracker.getErrorCode());
                 }
 
                 return true;
@@ -1992,7 +1991,7 @@ namespace FastDFS.Client
                 this.storageServer = tracker.getFetchStorage(this.trackerServer, group_name, remote_filename);
                 if (this.storageServer == null)
                 {
-                    throw new MyException("getStoreStorage fail, errno code: " + tracker.getErrorCode());
+                    throw new FastDfsException("getStoreStorage fail, errno code: " + tracker.getErrorCode());
                 }
 
                 return true;
@@ -2035,20 +2034,21 @@ namespace FastDFS.Client
         protected void send_package(byte cmd, String group_name, String remote_filename)
         {
             byte[]
-                header;
+                    header;
             byte[]
-                groupBytes;
+                    groupBytes;
             byte[]
-                filenameBytes;
+                    filenameBytes;
             byte[]
-                bs;
+                    bs;
             int groupLen;
 
+            var encoder = Encoding.GetEncoding(ClientGlobal.g_charset);
             groupBytes = new byte[ProtoCommon.FDFS_GROUP_NAME_MAX_LEN];
-            bs = group_name.getBytes(ClientGlobal.g_charset);
-            filenameBytes = remote_filename.getBytes(ClientGlobal.g_charset);
+            bs = encoder.GetBytes(group_name);
+            filenameBytes = encoder.GetBytes(remote_filename);
 
-            Arrays.fill(groupBytes, (byte) 0);
+            groupBytes.Fill<byte>(0);
             if (bs.Length <= groupBytes.Length)
             {
                 groupLen = bs.Length;
@@ -2060,12 +2060,13 @@ namespace FastDFS.Client
 
             Array.Copy(bs, 0, groupBytes, 0, groupLen);
 
-            header = ProtoCommon.packHeader(cmd, groupBytes.Length + filenameBytes.Length, (byte) 0);
+            header = ProtoCommon.packHeader(cmd, groupBytes.Length + filenameBytes.Length, (byte)0);
             byte[] wholePkg = new byte[header.Length + groupBytes.Length + filenameBytes.Length];
             Array.Copy(header, 0, wholePkg, 0, header.Length);
             Array.Copy(groupBytes, 0, wholePkg, header.Length, groupBytes.Length);
-            Array.Copy(filenameBytes, 0, wholePkg, header.Length + groupBytes.Length, filenameBytes.Length);
-            this.storageServer.getSocket().getOutputStream().write(wholePkg);
+            Array.Copy(filenameBytes, 0, wholePkg, header.Length + groupBytes.Length,
+                    filenameBytes.Length);
+            this.storageServer.getSocket().Send(wholePkg);
         }
 
         /**
@@ -2077,29 +2078,30 @@ namespace FastDFS.Client
          * @param download_bytes  download bytes
          */
         protected void send_download_package(String group_name, String remote_filename, long file_offset,
-            long download_bytes)
+                                             long download_bytes)
         {
             byte[]
-                header;
+                    header;
             byte[]
-                bsOffset;
+                    bsOffset;
             byte[]
-                bsDownBytes;
+                    bsDownBytes;
             byte[]
-                groupBytes;
+                    groupBytes;
             byte[]
-                filenameBytes;
+                    filenameBytes;
             byte[]
-                bs;
+                    bs;
             int groupLen;
 
+            var encoder = Encoding.GetEncoding(ClientGlobal.g_charset);
             bsOffset = ProtoCommon.long2buff(file_offset);
             bsDownBytes = ProtoCommon.long2buff(download_bytes);
             groupBytes = new byte[ProtoCommon.FDFS_GROUP_NAME_MAX_LEN];
-            bs = group_name.getBytes(ClientGlobal.g_charset);
-            filenameBytes = remote_filename.getBytes(ClientGlobal.g_charset);
+            bs = encoder.GetBytes(group_name);
+            filenameBytes = encoder.GetBytes(remote_filename);
 
-            Arrays.fill(groupBytes, (byte) 0);
+            groupBytes.Fill<byte>(0);
             if (bs.Length <= groupBytes.Length)
             {
                 groupLen = bs.Length;
@@ -2112,17 +2114,17 @@ namespace FastDFS.Client
             Array.Copy(bs, 0, groupBytes, 0, groupLen);
 
             header = ProtoCommon.packHeader(ProtoCommon.STORAGE_PROTO_CMD_DOWNLOAD_FILE,
-                bsOffset.Length + bsDownBytes.Length + groupBytes.Length + filenameBytes.Length, (byte) 0);
+                    bsOffset.Length + bsDownBytes.Length + groupBytes.Length + filenameBytes.Length, (byte)0);
             byte[] wholePkg = new byte[header.Length + bsOffset.Length + bsDownBytes.Length + groupBytes.Length +
                                        filenameBytes.Length];
             Array.Copy(header, 0, wholePkg, 0, header.Length);
             Array.Copy(bsOffset, 0, wholePkg, header.Length, bsOffset.Length);
             Array.Copy(bsDownBytes, 0, wholePkg, header.Length + bsOffset.Length, bsDownBytes.Length);
             Array.Copy(groupBytes, 0, wholePkg, header.Length + bsOffset.Length + bsDownBytes.Length,
-                groupBytes.Length);
+                    groupBytes.Length);
             Array.Copy(filenameBytes, 0, wholePkg,
-                header.Length + bsOffset.Length + bsDownBytes.Length + groupBytes.Length, filenameBytes.Length);
-            this.storageServer.getSocket().getOutputStream().write(wholePkg);
+                    header.Length + bsOffset.Length + bsDownBytes.Length + groupBytes.Length, filenameBytes.Length);
+            this.storageServer.getSocket().Send(wholePkg);
         }
 
         public bool isConnected()
@@ -2190,9 +2192,9 @@ namespace FastDFS.Client
              * @param out output stream for writing file content
              * @return 0 success, return none zero(errno) if fail
              */
-            public int send(OutputStream out)
+            public int send(Stream outputStream)
             {
-                out.write(this.fileBuff, this.offset, this.Length);
+                outputStream.Write(this.fileBuff, this.offset, this.Length);
 
                 return 0;
             }

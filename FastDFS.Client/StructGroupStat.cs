@@ -6,18 +6,18 @@ namespace FastDFS.Client
 {
     public class StructGroupStat : StructBase
     {
-        protected static final int FIELD_INDEX_GROUP_NAME = 0;
-        protected static final int FIELD_INDEX_TOTAL_MB = 1;
-        protected static final int FIELD_INDEX_FREE_MB = 2;
-        protected static final int FIELD_INDEX_TRUNK_FREE_MB = 3;
-        protected static final int FIELD_INDEX_STORAGE_COUNT = 4;
-        protected static final int FIELD_INDEX_STORAGE_PORT = 5;
-        protected static final int FIELD_INDEX_STORAGE_HTTP_PORT = 6;
-        protected static final int FIELD_INDEX_ACTIVE_COUNT = 7;
-        protected static final int FIELD_INDEX_CURRENT_WRITE_SERVER = 8;
-        protected static final int FIELD_INDEX_STORE_PATH_COUNT = 9;
-        protected static final int FIELD_INDEX_SUBDIR_COUNT_PER_PATH = 10;
-        protected static final int FIELD_INDEX_CURRENT_TRUNK_FILE_ID = 11;
+        protected static readonly int FIELD_INDEX_GROUP_NAME = 0;
+        protected static readonly int FIELD_INDEX_TOTAL_MB = 1;
+        protected static readonly int FIELD_INDEX_FREE_MB = 2;
+        protected static readonly int FIELD_INDEX_TRUNK_FREE_MB = 3;
+        protected static readonly int FIELD_INDEX_STORAGE_COUNT = 4;
+        protected static readonly int FIELD_INDEX_STORAGE_PORT = 5;
+        protected static readonly int FIELD_INDEX_STORAGE_HTTP_PORT = 6;
+        protected static readonly int FIELD_INDEX_ACTIVE_COUNT = 7;
+        protected static readonly int FIELD_INDEX_CURRENT_WRITE_SERVER = 8;
+        protected static readonly int FIELD_INDEX_STORE_PATH_COUNT = 9;
+        protected static readonly int FIELD_INDEX_SUBDIR_COUNT_PER_PATH = 10;
+        protected static readonly int FIELD_INDEX_CURRENT_TRUNK_FILE_ID = 11;
 
         protected static int fieldsTotalSize;
         protected static StructBase.FieldInfo[] fieldsArray = new StructBase.FieldInfo[12];
@@ -225,7 +225,7 @@ namespace FastDFS.Client
          * @param bs     byte array
          * @param offset start offset
          */
-        public void setFields(byte[] bs, int offset)
+        public override void setFields(byte[] bs, int offset)
         {
             this.groupName = stringValue(bs, offset, fieldsArray[FIELD_INDEX_GROUP_NAME]);
             this.totalMB = longValue(bs, offset, fieldsArray[FIELD_INDEX_TOTAL_MB]);

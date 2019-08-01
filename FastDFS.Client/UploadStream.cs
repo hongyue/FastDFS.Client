@@ -7,7 +7,7 @@ namespace FastDFS.Client
 {
     public class UploadStream : IUploadCallback
     {
-        private InputStream inputStream; //input stream for reading
+        private Stream inputStream; //input stream for reading
         private long fileSize = 0; //size of the uploaded file
 
         /**
@@ -16,9 +16,8 @@ namespace FastDFS.Client
          * @param inputStream input stream for uploading
          * @param fileSize    size of uploaded file
          */
-        public UploadStream(Stream inputStream, long fileSize)
+        public UploadStream(Stream inputStream, long fileSize) : base()
         {
-            super();
             this.inputStream = inputStream;
             this.fileSize = fileSize;
         }
@@ -29,30 +28,26 @@ namespace FastDFS.Client
          * @param out output stream for writing file content
          * @return 0 success, return none zero(errno) if fail
          */
-        public int send(OutputStream out)
+        public int send(Stream outpuStream)
         {
             long remainBytes = fileSize;
-            byte[]
-                    buff = new byte[256 * 1024];
+            byte[] buff = new byte[256 * 1024];
             int bytes;
             while (remainBytes > 0)
             {
                 try
                 {
-                    if ((bytes = inputStream.read(buff, 0,
-                                 remainBytes > buff.length ? buff.length : (int)remainBytes)) < 0)
+                    if ((bytes = inputStream.Read(buff, 0, remainBytes > buff.Length ? buff.Length : (int)remainBytes)) < 0)
                     {
                         return -1;
                     }
                 }
                 catch (IOException ex)
                 {
-                    ex.printStackTrace();
                     return -1;
                 }
-                out.
 
-                write(buff, 0, bytes);
+                outpuStream.Write(buff, 0, bytes);
                 remainBytes -= bytes;
             }
 

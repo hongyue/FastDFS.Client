@@ -11,7 +11,7 @@ namespace FastDFS.Client
     {
         public int tracker_server_index;
         public IList<IPEndPoint> tracker_servers;
-        protected Integer lock;
+        protected object _lock = new object();
 
         /**
          * Constructor
@@ -21,7 +21,6 @@ namespace FastDFS.Client
         public TrackerGroup(IList<IPEndPoint> tracker_servers)
         {
             this.tracker_servers = tracker_servers;
-            this.lock = new Integer(0);
             this.tracker_server_index = 0;
         }
 
@@ -32,10 +31,12 @@ namespace FastDFS.Client
          */
         public TrackerServer getConnection(int serverIndex)
         {
-            Socket sock = new Socket();
-            sock.setReuseAddress(true);
-            sock.setSoTimeout(ClientGlobal.g_network_timeout);
-            sock.connect(this.tracker_servers[serverIndex], ClientGlobal.g_connect_timeout);
+            Socket sock = new Socket(tracker_servers[serverIndex].AddressFamily, SocketType.Stream, ProtocolType.Tcp)
+            {
+                ReceiveTimeout = ClientGlobal.g_network_timeout
+            };
+            sock.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+            sock.Connect(tracker_servers[serverIndex]);
             return new TrackerServer(sock, this.tracker_servers[serverIndex]);
         }
 
@@ -48,9 +49,9 @@ namespace FastDFS.Client
         {
             int current_index;
 
-            synchronized(this.lock) {
+            lock(_lock) {
                 this.tracker_server_index++;
-                if (this.tracker_server_index >= this.tracker_servers.length)
+                if (this.tracker_server_index >= this.tracker_servers.Count)
                 {
                     this.tracker_server_index = 0;
                 }
@@ -64,13 +65,13 @@ namespace FastDFS.Client
             }
             catch (IOException ex)
             {
-                System.err.println("connect to server " +
-                                   this.tracker_servers[current_index].getAddress().getHostAddress() + ":" +
-                                   this.tracker_servers[current_index].getPort() + " fail");
-                ex.printStackTrace(System.err);
+                //System.err.println("connect to server " +
+                //                   this.tracker_servers[current_index].getAddress().getHostAddress() + ":" +
+                //                   this.tracker_servers[current_index].getPort() + " fail");
+                //ex.printStackTrace(System.err);
             }
 
-            for (int i = 0; i < this.tracker_servers.length; i++)
+            for (int i = 0; i < this.tracker_servers.Count; i++)
             {
                 if (i == current_index)
                 {
@@ -81,7 +82,7 @@ namespace FastDFS.Client
                 {
                     TrackerServer trackerServer = this.getConnection(i);
 
-                    synchronized(this.lock)
+                    lock(_lock)
                     {
                         if (this.tracker_server_index == current_index)
                         {
@@ -93,9 +94,9 @@ namespace FastDFS.Client
                 }
                 catch (IOException ex)
                 {
-                    System.err.println("connect to server " + this.tracker_servers[i].getAddress().getHostAddress() +
-                                       ":" + this.tracker_servers[i].getPort() + " fail");
-                    ex.printStackTrace(System.err);
+                    //System.err.println("connect to server " + this.tracker_servers[i].getAddress().getHostAddress() +
+                    //                   ":" + this.tracker_servers[i].getPort() + " fail");
+                    //ex.printStackTrace(System.err);
                 }
             }
 
@@ -104,11 +105,11 @@ namespace FastDFS.Client
 
         public Object clone()
         {
-            InetSocketAddress[] trackerServers = new InetSocketAddress[this.tracker_servers.length];
-            for (int i = 0; i < trackerServers.length; i++)
+            var trackerServers = new IPEndPoint[this.tracker_servers.Count];
+            for (int i = 0; i < trackerServers.Length; i++)
             {
-                trackerServers[i] = new InetSocketAddress(this.tracker_servers[i].getAddress().getHostAddress(),
-                        this.tracker_servers[i].getPort());
+                trackerServers[i] = new IPEndPoint(this.tracker_servers[i].Address,
+                        this.tracker_servers[i].Port);
             }
 
             return new TrackerGroup(trackerServers);

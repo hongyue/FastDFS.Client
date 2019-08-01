@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FastDFS.Client
 {
@@ -39,13 +43,12 @@ namespace FastDFS.Client
 
         public static void init(String conf_filename)
         {
-            IniFileReader iniReader;
+            var jsonConfig = JObject.Parse(File.ReadAllText(conf_filename));
+
             string[] szTrackerServers;
             string[] parts;
 
-            iniReader = new IniFileReader(conf_filename);
-
-            g_connect_timeout = iniReader.getIntValue("connect_timeout", DEFAULT_CONNECT_TIMEOUT);
+            g_connect_timeout = jsonConfig.Value<int?>("connect_timeout") ?? DEFAULT_CONNECT_TIMEOUT;
             if (g_connect_timeout < 0)
             {
                 g_connect_timeout = DEFAULT_CONNECT_TIMEOUT;
@@ -53,7 +56,7 @@ namespace FastDFS.Client
 
             g_connect_timeout *= 1000; //millisecond
 
-            g_network_timeout = iniReader.getIntValue("network_timeout", DEFAULT_NETWORK_TIMEOUT);
+            g_network_timeout = jsonConfig.Value<int?>("network_timeout") ?? DEFAULT_NETWORK_TIMEOUT;
             if (g_network_timeout < 0)
             {
                 g_network_timeout = DEFAULT_NETWORK_TIMEOUT;
@@ -61,13 +64,9 @@ namespace FastDFS.Client
 
             g_network_timeout *= 1000; //millisecond
 
-            g_charset = iniReader.getStrValue("charset");
-            if (string.IsNullOrEmpty(g_charset))
-            {
-                g_charset = "ISO8859-1";
-            }
+            g_charset = jsonConfig.Value<string>("charset") ?? DEFAULT_CHARSET;
 
-            szTrackerServers = iniReader.getValues("tracker_server");
+            szTrackerServers = jsonConfig["tracker_servers"].Select(s => (string)s).ToArray();
             if (szTrackerServers == null)
             {
                 throw new FastDfsException($"item \"tracker_server\" in {conf_filename} not found");
@@ -88,11 +87,11 @@ namespace FastDFS.Client
 
             g_tracker_group = new TrackerGroup(tracker_servers);
 
-            g_tracker_http_port = iniReader.getIntValue("http.tracker_http_port", 80);
-            g_anti_steal_token = iniReader.getBoolValue("http.anti_steal_token", false);
+            g_tracker_http_port = jsonConfig.Value<int?>("http.tracker_http_port") ?? 80;
+            g_anti_steal_token = jsonConfig.Value<bool?>("http.anti_steal_token") ?? false;
             if (g_anti_steal_token)
             {
-                g_secret_key = iniReader.getStrValue("http.secret_key");
+                g_secret_key = jsonConfig.Value<string>("http.secret_key") ?? DEFAULT_HTTP_SECRET_KEY;
             }
         }
 

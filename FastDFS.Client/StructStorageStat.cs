@@ -6,70 +6,70 @@ namespace FastDFS.Client
 {
     public class StructStorageStat : StructBase
     {
-        protected static final int FIELD_INDEX_STATUS = 0;
-        protected static final int FIELD_INDEX_ID = 1;
-        protected static final int FIELD_INDEX_IP_ADDR = 2;
-        protected static final int FIELD_INDEX_DOMAIN_NAME = 3;
-        protected static final int FIELD_INDEX_SRC_IP_ADDR = 4;
-        protected static final int FIELD_INDEX_VERSION = 5;
-        protected static final int FIELD_INDEX_JOIN_TIME = 6;
-        protected static final int FIELD_INDEX_UP_TIME = 7;
-        protected static final int FIELD_INDEX_TOTAL_MB = 8;
-        protected static final int FIELD_INDEX_FREE_MB = 9;
-        protected static final int FIELD_INDEX_UPLOAD_PRIORITY = 10;
-        protected static final int FIELD_INDEX_STORE_PATH_COUNT = 11;
-        protected static final int FIELD_INDEX_SUBDIR_COUNT_PER_PATH = 12;
-        protected static final int FIELD_INDEX_CURRENT_WRITE_PATH = 13;
-        protected static final int FIELD_INDEX_STORAGE_PORT = 14;
-        protected static final int FIELD_INDEX_STORAGE_HTTP_PORT = 15;
+        protected static readonly int FIELD_INDEX_STATUS = 0;
+        protected static readonly int FIELD_INDEX_ID = 1;
+        protected static readonly int FIELD_INDEX_IP_ADDR = 2;
+        protected static readonly int FIELD_INDEX_DOMAIN_NAME = 3;
+        protected static readonly int FIELD_INDEX_SRC_IP_ADDR = 4;
+        protected static readonly int FIELD_INDEX_VERSION = 5;
+        protected static readonly int FIELD_INDEX_JOIN_TIME = 6;
+        protected static readonly int FIELD_INDEX_UP_TIME = 7;
+        protected static readonly int FIELD_INDEX_TOTAL_MB = 8;
+        protected static readonly int FIELD_INDEX_FREE_MB = 9;
+        protected static readonly int FIELD_INDEX_UPLOAD_PRIORITY = 10;
+        protected static readonly int FIELD_INDEX_STORE_PATH_COUNT = 11;
+        protected static readonly int FIELD_INDEX_SUBDIR_COUNT_PER_PATH = 12;
+        protected static readonly int FIELD_INDEX_CURRENT_WRITE_PATH = 13;
+        protected static readonly int FIELD_INDEX_STORAGE_PORT = 14;
+        protected static readonly int FIELD_INDEX_STORAGE_HTTP_PORT = 15;
 
-        protected static final int FIELD_INDEX_CONNECTION_ALLOC_COUNT = 16;
-        protected static final int FIELD_INDEX_CONNECTION_CURRENT_COUNT = 17;
-        protected static final int FIELD_INDEX_CONNECTION_MAX_COUNT = 18;
+        protected static readonly int FIELD_INDEX_CONNECTION_ALLOC_COUNT = 16;
+        protected static readonly int FIELD_INDEX_CONNECTION_CURRENT_COUNT = 17;
+        protected static readonly int FIELD_INDEX_CONNECTION_MAX_COUNT = 18;
 
-        protected static final int FIELD_INDEX_TOTAL_UPLOAD_COUNT = 19;
-        protected static final int FIELD_INDEX_SUCCESS_UPLOAD_COUNT = 20;
-        protected static final int FIELD_INDEX_TOTAL_APPEND_COUNT = 21;
-        protected static final int FIELD_INDEX_SUCCESS_APPEND_COUNT = 22;
-        protected static final int FIELD_INDEX_TOTAL_MODIFY_COUNT = 23;
-        protected static final int FIELD_INDEX_SUCCESS_MODIFY_COUNT = 24;
-        protected static final int FIELD_INDEX_TOTAL_TRUNCATE_COUNT = 25;
-        protected static final int FIELD_INDEX_SUCCESS_TRUNCATE_COUNT = 26;
-        protected static final int FIELD_INDEX_TOTAL_SET_META_COUNT = 27;
-        protected static final int FIELD_INDEX_SUCCESS_SET_META_COUNT = 28;
-        protected static final int FIELD_INDEX_TOTAL_DELETE_COUNT = 29;
-        protected static final int FIELD_INDEX_SUCCESS_DELETE_COUNT = 30;
-        protected static final int FIELD_INDEX_TOTAL_DOWNLOAD_COUNT = 31;
-        protected static final int FIELD_INDEX_SUCCESS_DOWNLOAD_COUNT = 32;
-        protected static final int FIELD_INDEX_TOTAL_GET_META_COUNT = 33;
-        protected static final int FIELD_INDEX_SUCCESS_GET_META_COUNT = 34;
-        protected static final int FIELD_INDEX_TOTAL_CREATE_LINK_COUNT = 35;
-        protected static final int FIELD_INDEX_SUCCESS_CREATE_LINK_COUNT = 36;
-        protected static final int FIELD_INDEX_TOTAL_DELETE_LINK_COUNT = 37;
-        protected static final int FIELD_INDEX_SUCCESS_DELETE_LINK_COUNT = 38;
-        protected static final int FIELD_INDEX_TOTAL_UPLOAD_BYTES = 39;
-        protected static final int FIELD_INDEX_SUCCESS_UPLOAD_BYTES = 40;
-        protected static final int FIELD_INDEX_TOTAL_APPEND_BYTES = 41;
-        protected static final int FIELD_INDEX_SUCCESS_APPEND_BYTES = 42;
-        protected static final int FIELD_INDEX_TOTAL_MODIFY_BYTES = 43;
-        protected static final int FIELD_INDEX_SUCCESS_MODIFY_BYTES = 44;
-        protected static final int FIELD_INDEX_TOTAL_DOWNLOAD_BYTES = 45;
-        protected static final int FIELD_INDEX_SUCCESS_DOWNLOAD_BYTES = 46;
-        protected static final int FIELD_INDEX_TOTAL_SYNC_IN_BYTES = 47;
-        protected static final int FIELD_INDEX_SUCCESS_SYNC_IN_BYTES = 48;
-        protected static final int FIELD_INDEX_TOTAL_SYNC_OUT_BYTES = 49;
-        protected static final int FIELD_INDEX_SUCCESS_SYNC_OUT_BYTES = 50;
-        protected static final int FIELD_INDEX_TOTAL_FILE_OPEN_COUNT = 51;
-        protected static final int FIELD_INDEX_SUCCESS_FILE_OPEN_COUNT = 52;
-        protected static final int FIELD_INDEX_TOTAL_FILE_READ_COUNT = 53;
-        protected static final int FIELD_INDEX_SUCCESS_FILE_READ_COUNT = 54;
-        protected static final int FIELD_INDEX_TOTAL_FILE_WRITE_COUNT = 55;
-        protected static final int FIELD_INDEX_SUCCESS_FILE_WRITE_COUNT = 56;
-        protected static final int FIELD_INDEX_LAST_SOURCE_UPDATE = 57;
-        protected static final int FIELD_INDEX_LAST_SYNC_UPDATE = 58;
-        protected static final int FIELD_INDEX_LAST_SYNCED_TIMESTAMP = 59;
-        protected static final int FIELD_INDEX_LAST_HEART_BEAT_TIME = 60;
-        protected static final int FIELD_INDEX_IF_TRUNK_FILE = 61;
+        protected static readonly int FIELD_INDEX_TOTAL_UPLOAD_COUNT = 19;
+        protected static readonly int FIELD_INDEX_SUCCESS_UPLOAD_COUNT = 20;
+        protected static readonly int FIELD_INDEX_TOTAL_APPEND_COUNT = 21;
+        protected static readonly int FIELD_INDEX_SUCCESS_APPEND_COUNT = 22;
+        protected static readonly int FIELD_INDEX_TOTAL_MODIFY_COUNT = 23;
+        protected static readonly int FIELD_INDEX_SUCCESS_MODIFY_COUNT = 24;
+        protected static readonly int FIELD_INDEX_TOTAL_TRUNCATE_COUNT = 25;
+        protected static readonly int FIELD_INDEX_SUCCESS_TRUNCATE_COUNT = 26;
+        protected static readonly int FIELD_INDEX_TOTAL_SET_META_COUNT = 27;
+        protected static readonly int FIELD_INDEX_SUCCESS_SET_META_COUNT = 28;
+        protected static readonly int FIELD_INDEX_TOTAL_DELETE_COUNT = 29;
+        protected static readonly int FIELD_INDEX_SUCCESS_DELETE_COUNT = 30;
+        protected static readonly int FIELD_INDEX_TOTAL_DOWNLOAD_COUNT = 31;
+        protected static readonly int FIELD_INDEX_SUCCESS_DOWNLOAD_COUNT = 32;
+        protected static readonly int FIELD_INDEX_TOTAL_GET_META_COUNT = 33;
+        protected static readonly int FIELD_INDEX_SUCCESS_GET_META_COUNT = 34;
+        protected static readonly int FIELD_INDEX_TOTAL_CREATE_LINK_COUNT = 35;
+        protected static readonly int FIELD_INDEX_SUCCESS_CREATE_LINK_COUNT = 36;
+        protected static readonly int FIELD_INDEX_TOTAL_DELETE_LINK_COUNT = 37;
+        protected static readonly int FIELD_INDEX_SUCCESS_DELETE_LINK_COUNT = 38;
+        protected static readonly int FIELD_INDEX_TOTAL_UPLOAD_BYTES = 39;
+        protected static readonly int FIELD_INDEX_SUCCESS_UPLOAD_BYTES = 40;
+        protected static readonly int FIELD_INDEX_TOTAL_APPEND_BYTES = 41;
+        protected static readonly int FIELD_INDEX_SUCCESS_APPEND_BYTES = 42;
+        protected static readonly int FIELD_INDEX_TOTAL_MODIFY_BYTES = 43;
+        protected static readonly int FIELD_INDEX_SUCCESS_MODIFY_BYTES = 44;
+        protected static readonly int FIELD_INDEX_TOTAL_DOWNLOAD_BYTES = 45;
+        protected static readonly int FIELD_INDEX_SUCCESS_DOWNLOAD_BYTES = 46;
+        protected static readonly int FIELD_INDEX_TOTAL_SYNC_IN_BYTES = 47;
+        protected static readonly int FIELD_INDEX_SUCCESS_SYNC_IN_BYTES = 48;
+        protected static readonly int FIELD_INDEX_TOTAL_SYNC_OUT_BYTES = 49;
+        protected static readonly int FIELD_INDEX_SUCCESS_SYNC_OUT_BYTES = 50;
+        protected static readonly int FIELD_INDEX_TOTAL_FILE_OPEN_COUNT = 51;
+        protected static readonly int FIELD_INDEX_SUCCESS_FILE_OPEN_COUNT = 52;
+        protected static readonly int FIELD_INDEX_TOTAL_FILE_READ_COUNT = 53;
+        protected static readonly int FIELD_INDEX_SUCCESS_FILE_READ_COUNT = 54;
+        protected static readonly int FIELD_INDEX_TOTAL_FILE_WRITE_COUNT = 55;
+        protected static readonly int FIELD_INDEX_SUCCESS_FILE_WRITE_COUNT = 56;
+        protected static readonly int FIELD_INDEX_LAST_SOURCE_UPDATE = 57;
+        protected static readonly int FIELD_INDEX_LAST_SYNC_UPDATE = 58;
+        protected static readonly int FIELD_INDEX_LAST_SYNCED_TIMESTAMP = 59;
+        protected static readonly int FIELD_INDEX_LAST_HEART_BEAT_TIME = 60;
+        protected static readonly int FIELD_INDEX_IF_TRUNK_FILE = 61;
 
         protected static int fieldsTotalSize;
         protected static StructBase.FieldInfo[] fieldsArray = new StructBase.FieldInfo[62];
@@ -333,8 +333,8 @@ namespace FastDFS.Client
         protected long totalMB; //total disk storage in MB
         protected long freeMB; //free disk storage in MB
         protected int uploadPriority; //upload priority
-        protected Date joinTime; //storage join timestamp (create timestamp)
-        protected Date upTime; //storage service started timestamp
+        protected DateTime joinTime; //storage join timestamp (create timestamp)
+        protected DateTime upTime; //storage service started timestamp
         protected int storePathCount; //store base path count of each storage server
         protected int subdirCountPerPath;
         protected int storagePort;
@@ -381,11 +381,11 @@ namespace FastDFS.Client
         protected long successFileReadCount;
         protected long totalFileWriteCount;
         protected long successFileWriteCount;
-        protected Date lastSourceUpdate;
-        protected Date lastSyncUpdate;
-        protected Date lastSyncedTimestamp;
-        protected Date lastHeartBeatTime;
-        protected boolean ifTrunkServer;
+        protected DateTime lastSourceUpdate;
+        protected DateTime lastSyncUpdate;
+        protected DateTime lastSyncedTimestamp;
+        protected DateTime lastHeartBeatTime;
+        protected bool ifTrunkServer;
 
         /**
          * get fields total size
@@ -492,7 +492,7 @@ namespace FastDFS.Client
          *
          * @return storage server join time
          */
-        public Date getJoinTime()
+        public DateTime getJoinTime()
         {
             return this.joinTime;
         }
@@ -502,7 +502,7 @@ namespace FastDFS.Client
          *
          * @return storage server up time
          */
-        public Date getUpTime()
+        public DateTime getUpTime()
         {
             return this.upTime;
         }
@@ -942,7 +942,7 @@ namespace FastDFS.Client
          *
          * @return last source update timestamp
          */
-        public Date getLastSourceUpdate()
+        public DateTime getLastSourceUpdate()
         {
             return this.lastSourceUpdate;
         }
@@ -952,7 +952,7 @@ namespace FastDFS.Client
          *
          * @return last synced update timestamp
          */
-        public Date getLastSyncUpdate()
+        public DateTime getLastSyncUpdate()
         {
             return this.lastSyncUpdate;
         }
@@ -962,7 +962,7 @@ namespace FastDFS.Client
          *
          * @return last synced timestamp
          */
-        public Date getLastSyncedTimestamp()
+        public DateTime getLastSyncedTimestamp()
         {
             return this.lastSyncedTimestamp;
         }
@@ -972,7 +972,7 @@ namespace FastDFS.Client
          *
          * @return last heart beat timestamp
          */
-        public Date getLastHeartBeatTime()
+        public DateTime getLastHeartBeatTime()
         {
             return this.lastHeartBeatTime;
         }
@@ -982,7 +982,7 @@ namespace FastDFS.Client
          *
          * @return true for the trunk server, otherwise false
          */
-        public boolean isTrunkServer()
+        public bool isTrunkServer()
         {
             return this.ifTrunkServer;
         }
@@ -1023,7 +1023,7 @@ namespace FastDFS.Client
          * @param bs     byte array
          * @param offset start offset
          */
-        public void setFields(byte[] bs, int offset)
+        public override void setFields(byte[] bs, int offset)
         {
             this.status = byteValue(bs, offset, fieldsArray[FIELD_INDEX_STATUS]);
             this.id = stringValue(bs, offset, fieldsArray[FIELD_INDEX_ID]);

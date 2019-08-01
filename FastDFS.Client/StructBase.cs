@@ -16,15 +16,8 @@ namespace FastDFS.Client
 
         protected String stringValue(byte[] bs, int offset, FieldInfo filedInfo)
         {
-            try
-            {
-                return (new String(bs, offset + filedInfo.offset, filedInfo.size, ClientGlobal.g_charset)).trim();
-            }
-            catch (UnsupportedEncodingException ex)
-            {
-                ex.printStackTrace();
-                return null;
-            }
+            var encoder = Encoding.GetEncoding(ClientGlobal.g_charset);
+            return encoder.GetString(bs, offset + filedInfo.offset, filedInfo.size).Trim('\0');
         }
 
         protected long longValue(byte[] bs, int offset, FieldInfo filedInfo)
@@ -54,14 +47,15 @@ namespace FastDFS.Client
 
         protected DateTime dateValue(byte[] bs, int offset, FieldInfo filedInfo)
         {
-            return new Date(ProtoCommon.buff2long(bs, offset + filedInfo.offset) * 1000);
+            return DateTimeOffset.FromUnixTimeMilliseconds(
+                    ProtoCommon.buff2long(bs, offset + filedInfo.offset) * 1000).DateTime;
         }
 
         protected class FieldInfo
         {
-            protected String name;
-            protected int offset;
-            protected int size;
+            public String name;
+            public int offset;
+            public int size;
 
             public FieldInfo(String name, int offset, int size)
             {

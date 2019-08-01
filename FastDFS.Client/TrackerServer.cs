@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -8,7 +10,7 @@ namespace FastDFS.Client
     public class TrackerServer
     {
         protected Socket sock;
-        protected InetSocketAddress inetSockAddr;
+        protected IPEndPoint inetSockAddr;
 
         /**
          * Constructor
@@ -16,7 +18,7 @@ namespace FastDFS.Client
          * @param sock         Socket of server
          * @param inetSockAddr the server info
          */
-        public TrackerServer(Socket sock, InetSocketAddress inetSockAddr)
+        public TrackerServer(Socket sock, IPEndPoint inetSockAddr)
         {
             this.sock = sock;
             this.inetSockAddr = inetSockAddr;
@@ -42,19 +44,19 @@ namespace FastDFS.Client
          *
          * @return the server info
          */
-        public InetSocketAddress getInetSocketAddress()
+        public IPEndPoint getInetSocketAddress()
         {
             return this.inetSockAddr;
         }
 
-        public OutputStream getOutputStream()
+        public Socket getOutputStream()
         {
-            return this.sock.getOutputStream();
+            return this.sock;
         }
 
-        public InputStream getInputStream()
+        public Socket getInputStream()
         {
-            return this.sock.getInputStream();
+            return this.sock;
         }
 
         public void close()
@@ -77,12 +79,12 @@ namespace FastDFS.Client
             this.close();
         }
 
-        public boolean isConnected()
+        public bool isConnected()
         {
-            boolean isConnected = false;
+            bool isConnected = false;
             if (sock != null)
             {
-                if (sock.isConnected())
+                if (sock.Connected)
                 {
                     isConnected = true;
                 }
@@ -91,34 +93,35 @@ namespace FastDFS.Client
             return isConnected;
         }
 
-        public boolean isAvaliable()
+        public bool isAvaliable()
         {
             if (isConnected())
             {
-                if (sock.getPort() == 0)
-                {
-                    return false;
-                }
+                //if (sock.RemoteEndPoin() == 0)
+                //{
+                //    return false;
+                //}
 
-                if (sock.getInetAddress() == null)
-                {
-                    return false;
-                }
+                //if (sock.getInetAddress() == null)
+                //{
+                //    return false;
+                //}
 
-                if (sock.getRemoteSocketAddress() == null)
-                {
-                    return false;
-                }
+                //if (sock.getRemoteSocketAddress() == null)
+                //{
+                //    return false;
+                //}
 
-                if (sock.isInputShutdown())
-                {
-                    return false;
-                }
+                //if (sock.isInputShutdown())
+                //{
+                //    return false;
+                //}
 
-                if (sock.isOutputShutdown())
-                {
-                    return false;
-                }
+                //if (sock.isOutputShutdown())
+                //{
+                //    return false;
+                //}
+
 
                 return true;
             }

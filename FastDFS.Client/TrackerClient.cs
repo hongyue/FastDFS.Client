@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 
 namespace FastDFS.Client
@@ -10,6 +11,7 @@ namespace FastDFS.Client
     {
         protected TrackerGroup tracker_group;
         protected byte errno;
+        private Encoding _encoding = Encoding.GetEncoding(ClientGlobal.g_charset);
 
         /**
          * constructor with global tracker group
@@ -57,7 +59,7 @@ namespace FastDFS.Client
          */
         public StorageServer getStoreStorage(TrackerServer trackerServer)
         {
-            final String groupName = null;
+            String groupName = null;
             return this.getStoreStorage(trackerServer, groupName);
         }
 
@@ -76,7 +78,7 @@ namespace FastDFS.Client
             int port;
             byte cmd;
             int out_len;
-            boolean bNewConnection;
+            bool bNewConnection;
             byte store_path;
             Socket trackerSocket;
 
@@ -96,11 +98,11 @@ namespace FastDFS.Client
             }
 
             trackerSocket = trackerServer.getSocket();
-            OutputStream out = trackerSocket.getOutputStream();
+            var outputStream = new NetworkStream(trackerSocket);
 
             try
             {
-                if (groupName == null || groupName.length() == 0)
+                if (groupName == null || groupName.Length == 0)
                 {
                     cmd = ProtoCommon.TRACKER_PROTO_CMD_SERVICE_QUERY_STORE_WITHOUT_GROUP_ONE;
                     out_len = 0;
@@ -112,32 +114,32 @@ namespace FastDFS.Client
                 }
 
                 header = ProtoCommon.packHeader(cmd, out_len, (byte)0);
-                        out.write(header);
-
-                if (groupName != null && groupName.length() > 0)
+                outputStream.Write(header, 0, header.Length);
+                var encoder = Encoding.GetEncoding(ClientGlobal.g_charset);
+                if (groupName != null && groupName.Length > 0)
                 {
                     byte[] bGroupName;
                     byte[] bs;
                     int group_len;
 
-                    bs = groupName.getBytes(ClientGlobal.g_charset);
+                    bs = encoder.GetBytes(groupName);
                     bGroupName = new byte[ProtoCommon.FDFS_GROUP_NAME_MAX_LEN];
 
-                    if (bs.length <= ProtoCommon.FDFS_GROUP_NAME_MAX_LEN)
+                    if (bs.Length <= ProtoCommon.FDFS_GROUP_NAME_MAX_LEN)
                     {
-                        group_len = bs.length;
+                        group_len = bs.Length;
                     }
                     else
                     {
                         group_len = ProtoCommon.FDFS_GROUP_NAME_MAX_LEN;
                     }
 
-                    Arrays.fill(bGroupName, (byte)0);
-                    System.arraycopy(bs, 0, bGroupName, 0, group_len);
-                            out.write(bGroupName);
+                    bGroupName.Fill<byte>(0);
+                    Array.Copy(bs, 0, bGroupName, 0, group_len);
+                    outputStream.Write(bGroupName, 0, bGroupName.Length);
                 }
 
-                ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(trackerSocket.getInputStream(),
+                ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(outputStream,
                         ProtoCommon.TRACKER_PROTO_CMD_RESP,
                         ProtoCommon.TRACKER_QUERY_STORAGE_STORE_BODY_LEN);
                 this.errno = pkgInfo.errno;
@@ -146,8 +148,8 @@ namespace FastDFS.Client
                     return null;
                 }
 
-                ip_addr = new String(pkgInfo.body, ProtoCommon.FDFS_GROUP_NAME_MAX_LEN,
-                        ProtoCommon.FDFS_IPADDR_SIZE - 1).trim();
+                ip_addr = Encoding.ASCII.GetString(pkgInfo.body, ProtoCommon.FDFS_GROUP_NAME_MAX_LEN,
+                        ProtoCommon.FDFS_IPADDR_SIZE - 1).Trim('\0');
 
                 port = (int)ProtoCommon.buff2long(pkgInfo.body, ProtoCommon.FDFS_GROUP_NAME_MAX_LEN
                                                                 + ProtoCommon.FDFS_IPADDR_SIZE - 1);
@@ -165,7 +167,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
 
@@ -173,6 +174,7 @@ namespace FastDFS.Client
             }
             finally
             {
+                outputStream.Close();
                 if (bNewConnection)
                 {
                     try
@@ -181,7 +183,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
             }
@@ -202,7 +203,7 @@ namespace FastDFS.Client
             int port;
             byte cmd;
             int out_len;
-            boolean bNewConnection;
+            bool bNewConnection;
             Socket trackerSocket;
 
             if (trackerServer == null)
@@ -221,11 +222,11 @@ namespace FastDFS.Client
             }
 
             trackerSocket = trackerServer.getSocket();
-            OutputStream out = trackerSocket.getOutputStream();
+            var outputStream = new NetworkStream(trackerSocket);
 
             try
             {
-                if (groupName == null || groupName.length() == 0)
+                if (groupName == null || groupName.Length == 0)
                 {
                     cmd = ProtoCommon.TRACKER_PROTO_CMD_SERVICE_QUERY_STORE_WITHOUT_GROUP_ALL;
                     out_len = 0;
@@ -237,32 +238,33 @@ namespace FastDFS.Client
                 }
 
                 header = ProtoCommon.packHeader(cmd, out_len, (byte)0);
-                        out.write(header);
-
-                if (groupName != null && groupName.length() > 0)
+                outputStream.Write(header, 0, header.Length);
+                var encoder = Encoding.GetEncoding(ClientGlobal.g_charset);
+                if (groupName != null && groupName.Length > 0)
                 {
                     byte[] bGroupName;
                     byte[] bs;
                     int group_len;
 
-                    bs = groupName.getBytes(ClientGlobal.g_charset);
+                    bs = encoder.GetBytes(groupName);
                     bGroupName = new byte[ProtoCommon.FDFS_GROUP_NAME_MAX_LEN];
 
-                    if (bs.length <= ProtoCommon.FDFS_GROUP_NAME_MAX_LEN)
+                    if (bs.Length <= ProtoCommon.FDFS_GROUP_NAME_MAX_LEN)
                     {
-                        group_len = bs.length;
+                        group_len = bs.Length;
                     }
                     else
                     {
                         group_len = ProtoCommon.FDFS_GROUP_NAME_MAX_LEN;
                     }
 
-                    Arrays.fill(bGroupName, (byte)0);
-                    System.arraycopy(bs, 0, bGroupName, 0, group_len);
-                            out.write(bGroupName);
+                    bGroupName.Fill<byte>(0);
+                    Array.Copy(bs, 0, bGroupName, 0, group_len);
+                    outputStream.Write(bGroupName, 0, bGroupName.Length);
                 }
 
-                ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(trackerSocket.getInputStream(),
+
+                ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(outputStream,
                         ProtoCommon.TRACKER_PROTO_CMD_RESP, -1);
                 this.errno = pkgInfo.errno;
                 if (pkgInfo.errno != 0)
@@ -270,14 +272,14 @@ namespace FastDFS.Client
                     return null;
                 }
 
-                if (pkgInfo.body.length < ProtoCommon.TRACKER_QUERY_STORAGE_STORE_BODY_LEN)
+                if (pkgInfo.body.Length < ProtoCommon.TRACKER_QUERY_STORAGE_STORE_BODY_LEN)
                 {
                     this.errno = ProtoCommon.ERR_NO_EINVAL;
                     return null;
                 }
 
-                int ipPortLen = pkgInfo.body.length - (ProtoCommon.FDFS_GROUP_NAME_MAX_LEN + 1);
-                final int recordLength = ProtoCommon.FDFS_IPADDR_SIZE - 1 + ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
+                int ipPortLen = pkgInfo.body.Length - (ProtoCommon.FDFS_GROUP_NAME_MAX_LEN + 1);
+                int recordLength = ProtoCommon.FDFS_IPADDR_SIZE - 1 + ProtoCommon.FDFS_PROTO_PKG_LEN_SIZE;
 
                 if (ipPortLen % recordLength != 0)
                 {
@@ -293,12 +295,13 @@ namespace FastDFS.Client
                 }
 
                 StorageServer[] results = new StorageServer[serverCount];
-                byte store_path = pkgInfo.body[pkgInfo.body.length - 1];
+                byte store_path = pkgInfo.body[pkgInfo.body.Length - 1];
                 int offset = ProtoCommon.FDFS_GROUP_NAME_MAX_LEN;
 
                 for (int i = 0; i < serverCount; i++)
                 {
-                    ip_addr = new String(pkgInfo.body, offset, ProtoCommon.FDFS_IPADDR_SIZE - 1).trim();
+                    ip_addr = Encoding.ASCII.GetString(pkgInfo.body, offset, ProtoCommon.FDFS_IPADDR_SIZE - 1).Trim(
+                            '\0');
                     offset += ProtoCommon.FDFS_IPADDR_SIZE - 1;
 
                     port = (int)ProtoCommon.buff2long(pkgInfo.body, offset);
@@ -319,7 +322,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
 
@@ -327,6 +329,7 @@ namespace FastDFS.Client
             }
             finally
             {
+                outputStream.Close();
                 if (bNewConnection)
                 {
                     try
@@ -335,7 +338,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
             }
@@ -428,7 +430,7 @@ namespace FastDFS.Client
             int len;
             String ip_addr;
             int port;
-            boolean bNewConnection;
+            bool bNewConnection;
             Socket trackerSocket;
 
             if (trackerServer == null)
@@ -447,34 +449,34 @@ namespace FastDFS.Client
             }
 
             trackerSocket = trackerServer.getSocket();
-            OutputStream out = trackerSocket.getOutputStream();
+            var outputStream = new NetworkStream(trackerSocket);
 
             try
             {
-                bs = groupName.getBytes(ClientGlobal.g_charset);
+                bs = _encoding.GetBytes(groupName);
                 bGroupName = new byte[ProtoCommon.FDFS_GROUP_NAME_MAX_LEN];
-                bFileName = filename.getBytes(ClientGlobal.g_charset);
+                bFileName = _encoding.GetBytes(filename);
 
-                if (bs.length <= ProtoCommon.FDFS_GROUP_NAME_MAX_LEN)
+                if (bs.Length <= ProtoCommon.FDFS_GROUP_NAME_MAX_LEN)
                 {
-                    len = bs.length;
+                    len = bs.Length;
                 }
                 else
                 {
                     len = ProtoCommon.FDFS_GROUP_NAME_MAX_LEN;
                 }
 
-                Arrays.fill(bGroupName, (byte)0);
-                System.arraycopy(bs, 0, bGroupName, 0, len);
+                bGroupName.Fill<byte>(0);
+                Array.Copy(bs, 0, bGroupName, 0, len);
 
-                header = ProtoCommon.packHeader(cmd, ProtoCommon.FDFS_GROUP_NAME_MAX_LEN + bFileName.length, (byte)0);
-                byte[] wholePkg = new byte[header.length + bGroupName.length + bFileName.length];
-                System.arraycopy(header, 0, wholePkg, 0, header.length);
-                System.arraycopy(bGroupName, 0, wholePkg, header.length, bGroupName.length);
-                System.arraycopy(bFileName, 0, wholePkg, header.length + bGroupName.length, bFileName.length);
-                        out.write(wholePkg);
+                header = ProtoCommon.packHeader(cmd, ProtoCommon.FDFS_GROUP_NAME_MAX_LEN + bFileName.Length, (byte)0);
+                byte[] wholePkg = new byte[header.Length + bGroupName.Length + bFileName.Length];
+                Array.Copy(header, 0, wholePkg, 0, header.Length);
+                Array.Copy(bGroupName, 0, wholePkg, header.Length, bGroupName.Length);
+                Array.Copy(bFileName, 0, wholePkg, header.Length + bGroupName.Length, bFileName.Length);
+                        outputStream.Write(wholePkg, 0, wholePkg.Length);
 
-                ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(trackerSocket.getInputStream(),
+                ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(outputStream,
                         ProtoCommon.TRACKER_PROTO_CMD_RESP, -1);
                 this.errno = pkgInfo.errno;
                 if (pkgInfo.errno != 0)
@@ -482,22 +484,22 @@ namespace FastDFS.Client
                     return null;
                 }
 
-                if (pkgInfo.body.length < ProtoCommon.TRACKER_QUERY_STORAGE_FETCH_BODY_LEN)
+                if (pkgInfo.body.Length < ProtoCommon.TRACKER_QUERY_STORAGE_FETCH_BODY_LEN)
                 {
-                    throw new IOException("Invalid body length: " + pkgInfo.body.length);
+                    throw new IOException("Invalid body Length: " + pkgInfo.body.Length);
                 }
 
-                if ((pkgInfo.body.length - ProtoCommon.TRACKER_QUERY_STORAGE_FETCH_BODY_LEN) %
+                if ((pkgInfo.body.Length - ProtoCommon.TRACKER_QUERY_STORAGE_FETCH_BODY_LEN) %
                     (ProtoCommon.FDFS_IPADDR_SIZE - 1) != 0)
                 {
-                    throw new IOException("Invalid body length: " + pkgInfo.body.length);
+                    throw new IOException("Invalid body Length: " + pkgInfo.body.Length);
                 }
 
-                int server_count = 1 + (pkgInfo.body.length - ProtoCommon.TRACKER_QUERY_STORAGE_FETCH_BODY_LEN) /
+                int server_count = 1 + (pkgInfo.body.Length - ProtoCommon.TRACKER_QUERY_STORAGE_FETCH_BODY_LEN) /
                                    (ProtoCommon.FDFS_IPADDR_SIZE - 1);
 
-                ip_addr = new String(pkgInfo.body, ProtoCommon.FDFS_GROUP_NAME_MAX_LEN,
-                        ProtoCommon.FDFS_IPADDR_SIZE - 1).trim();
+                ip_addr = Encoding.ASCII.GetString(pkgInfo.body, ProtoCommon.FDFS_GROUP_NAME_MAX_LEN,
+                        ProtoCommon.FDFS_IPADDR_SIZE - 1).Trim('\0');
                 int offset = ProtoCommon.FDFS_GROUP_NAME_MAX_LEN + ProtoCommon.FDFS_IPADDR_SIZE - 1;
 
                 port = (int)ProtoCommon.buff2long(pkgInfo.body, offset);
@@ -507,8 +509,8 @@ namespace FastDFS.Client
                 servers[0] = new ServerInfo(ip_addr, port);
                 for (int i = 1; i < server_count; i++)
                 {
-                    servers[i] =
-                            new ServerInfo(new String(pkgInfo.body, offset, ProtoCommon.FDFS_IPADDR_SIZE - 1).trim(),
+                    servers[i] = new ServerInfo(Encoding.ASCII.GetString(
+                                    pkgInfo.body, offset, ProtoCommon.FDFS_IPADDR_SIZE - 1).Trim('\0'),
                                     port);
                     offset += ProtoCommon.FDFS_IPADDR_SIZE - 1;
                 }
@@ -525,7 +527,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
 
@@ -533,6 +534,7 @@ namespace FastDFS.Client
             }
             finally
             {
+                outputStream.Close();
                 if (bNewConnection)
                 {
                     try
@@ -541,7 +543,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
             }
@@ -620,14 +621,14 @@ namespace FastDFS.Client
             }
 
             trackerSocket = trackerServer.getSocket();
-            OutputStream out = trackerSocket.getOutputStream();
+            var outputStream = new NetworkStream(trackerSocket);
 
             try
             {
                 header = ProtoCommon.packHeader(ProtoCommon.TRACKER_PROTO_CMD_SERVER_LIST_GROUP, 0, (byte)0);
-                        out.write(header);
+                outputStream.Write(header, 0, header.Length);
 
-                ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(trackerSocket.getInputStream(),
+                ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(outputStream,
                         ProtoCommon.TRACKER_PROTO_CMD_RESP, -1);
                 this.errno = pkgInfo.errno;
                 if (pkgInfo.errno != 0)
@@ -648,7 +649,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
 
@@ -656,12 +656,12 @@ namespace FastDFS.Client
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
                 this.errno = ProtoCommon.ERR_NO_EINVAL;
                 return null;
             }
             finally
             {
+                outputStream.Close();
                 if (bNewConnection)
                 {
                     try
@@ -670,7 +670,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
             }
@@ -685,7 +684,7 @@ namespace FastDFS.Client
          */
         public StructStorageStat[] listStorages(TrackerServer trackerServer, String groupName)
         {
-            final String storageIpAddr = null;
+            String storageIpAddr = null;
             return this.listStorages(trackerServer, groupName, storageIpAddr);
         }
 
@@ -707,7 +706,7 @@ namespace FastDFS.Client
             byte[]
                     bs;
             int len;
-            boolean bNewConnection;
+            bool bNewConnection;
             Socket trackerSocket;
 
             if (trackerServer == null)
@@ -726,33 +725,33 @@ namespace FastDFS.Client
             }
 
             trackerSocket = trackerServer.getSocket();
-            OutputStream out = trackerSocket.getOutputStream();
+            var outputStream = new NetworkStream(trackerSocket);
 
             try
             {
-                bs = groupName.getBytes(ClientGlobal.g_charset);
+                bs = _encoding.GetBytes(groupName);
                 bGroupName = new byte[ProtoCommon.FDFS_GROUP_NAME_MAX_LEN];
 
-                if (bs.length <= ProtoCommon.FDFS_GROUP_NAME_MAX_LEN)
+                if (bs.Length <= ProtoCommon.FDFS_GROUP_NAME_MAX_LEN)
                 {
-                    len = bs.length;
+                    len = bs.Length;
                 }
                 else
                 {
                     len = ProtoCommon.FDFS_GROUP_NAME_MAX_LEN;
                 }
 
-                Arrays.fill(bGroupName, (byte)0);
-                System.arraycopy(bs, 0, bGroupName, 0, len);
+                bGroupName.Fill<byte>(0);
+                Array.Copy(bs, 0, bGroupName, 0, len);
 
                 int ipAddrLen;
                 byte[] bIpAddr;
-                if (storageIpAddr != null && storageIpAddr.length() > 0)
+                if (storageIpAddr != null && storageIpAddr.Length > 0)
                 {
-                    bIpAddr = storageIpAddr.getBytes(ClientGlobal.g_charset);
-                    if (bIpAddr.length < ProtoCommon.FDFS_IPADDR_SIZE)
+                    bIpAddr = _encoding.GetBytes(storageIpAddr);
+                    if (bIpAddr.Length < ProtoCommon.FDFS_IPADDR_SIZE)
                     {
-                        ipAddrLen = bIpAddr.length;
+                        ipAddrLen = bIpAddr.Length;
                     }
                     else
                     {
@@ -767,16 +766,17 @@ namespace FastDFS.Client
 
                 header = ProtoCommon.packHeader(ProtoCommon.TRACKER_PROTO_CMD_SERVER_LIST_STORAGE,
                         ProtoCommon.FDFS_GROUP_NAME_MAX_LEN + ipAddrLen, (byte)0);
-                byte[] wholePkg = new byte[header.length + bGroupName.length + ipAddrLen];
-                System.arraycopy(header, 0, wholePkg, 0, header.length);
-                System.arraycopy(bGroupName, 0, wholePkg, header.length, bGroupName.length);
+                byte[] wholePkg = new byte[header.Length + bGroupName.Length + ipAddrLen];
+                Array.Copy(header, 0, wholePkg, 0, header.Length);
+                Array.Copy(bGroupName, 0, wholePkg, header.Length, bGroupName.Length);
                 if (ipAddrLen > 0)
                 {
-                    System.arraycopy(bIpAddr, 0, wholePkg, header.length + bGroupName.length, ipAddrLen);
+                    Array.Copy(bIpAddr, 0, wholePkg, header.Length + bGroupName.Length, ipAddrLen);
                 }
-                out.write(wholePkg);
 
-                ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(trackerSocket.getInputStream(),
+                outputStream.Write(wholePkg, 0, wholePkg.Length);
+
+                ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(outputStream,
                         ProtoCommon.TRACKER_PROTO_CMD_RESP, -1);
                 this.errno = pkgInfo.errno;
                 if (pkgInfo.errno != 0)
@@ -797,7 +797,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
 
@@ -805,12 +804,12 @@ namespace FastDFS.Client
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
                 this.errno = ProtoCommon.ERR_NO_EINVAL;
                 return null;
             }
             finally
             {
+                outputStream.Close();
                 if (bNewConnection)
                 {
                     try
@@ -819,7 +818,6 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
             }
@@ -834,7 +832,7 @@ namespace FastDFS.Client
          * @return true for success, false for fail
          */
         private bool deleteStorage(TrackerServer trackerServer,
-                                      String groupName, String storageIpAddr)
+                                   String groupName, String storageIpAddr)
         {
             byte[]
                     header;
@@ -846,46 +844,47 @@ namespace FastDFS.Client
             Socket trackerSocket;
 
             trackerSocket = trackerServer.getSocket();
-            OutputStream out = trackerSocket.getOutputStream();
-
-            bs = groupName.getBytes(ClientGlobal.g_charset);
-            bGroupName = new byte[ProtoCommon.FDFS_GROUP_NAME_MAX_LEN];
-
-            if (bs.length <= ProtoCommon.FDFS_GROUP_NAME_MAX_LEN)
+            using (var outputStream = new NetworkStream(trackerSocket))
             {
-                len = bs.length;
-            }
-            else
-            {
-                len = ProtoCommon.FDFS_GROUP_NAME_MAX_LEN;
-            }
+                bs = _encoding.GetBytes(groupName);
+                bGroupName = new byte[ProtoCommon.FDFS_GROUP_NAME_MAX_LEN];
 
-            Arrays.fill(bGroupName, (byte)0);
-            System.arraycopy(bs, 0, bGroupName, 0, len);
+                if (bs.Length <= ProtoCommon.FDFS_GROUP_NAME_MAX_LEN)
+                {
+                    len = bs.Length;
+                }
+                else
+                {
+                    len = ProtoCommon.FDFS_GROUP_NAME_MAX_LEN;
+                }
 
-            int ipAddrLen;
-            byte[] bIpAddr = storageIpAddr.getBytes(ClientGlobal.g_charset);
-            if (bIpAddr.length < ProtoCommon.FDFS_IPADDR_SIZE)
-            {
-                ipAddrLen = bIpAddr.length;
+                bGroupName.Fill<byte>(0);
+                Array.Copy(bs, 0, bGroupName, 0, len);
+
+                int ipAddrLen;
+                byte[] bIpAddr = _encoding.GetBytes(storageIpAddr);
+                if (bIpAddr.Length < ProtoCommon.FDFS_IPADDR_SIZE)
+                {
+                    ipAddrLen = bIpAddr.Length;
+                }
+                else
+                {
+                    ipAddrLen = ProtoCommon.FDFS_IPADDR_SIZE - 1;
+                }
+
+                header = ProtoCommon.packHeader(ProtoCommon.TRACKER_PROTO_CMD_SERVER_DELETE_STORAGE,
+                        ProtoCommon.FDFS_GROUP_NAME_MAX_LEN + ipAddrLen, (byte)0);
+                byte[] wholePkg = new byte[header.Length + bGroupName.Length + ipAddrLen];
+                Array.Copy(header, 0, wholePkg, 0, header.Length);
+                Array.Copy(bGroupName, 0, wholePkg, header.Length, bGroupName.Length);
+                Array.Copy(bIpAddr, 0, wholePkg, header.Length + bGroupName.Length, ipAddrLen);
+                outputStream.Write(wholePkg, 0, wholePkg.Length);
+
+                ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(outputStream,
+                        ProtoCommon.TRACKER_PROTO_CMD_RESP, 0);
+                this.errno = pkgInfo.errno;
+                return pkgInfo.errno == 0;
             }
-            else
-            {
-                ipAddrLen = ProtoCommon.FDFS_IPADDR_SIZE - 1;
-            }
-
-            header = ProtoCommon.packHeader(ProtoCommon.TRACKER_PROTO_CMD_SERVER_DELETE_STORAGE,
-                    ProtoCommon.FDFS_GROUP_NAME_MAX_LEN + ipAddrLen, (byte)0);
-            byte[] wholePkg = new byte[header.length + bGroupName.length + ipAddrLen];
-            System.arraycopy(header, 0, wholePkg, 0, header.length);
-            System.arraycopy(bGroupName, 0, wholePkg, header.length, bGroupName.length);
-            System.arraycopy(bIpAddr, 0, wholePkg, header.length + bGroupName.length, ipAddrLen);
-                    out.write(wholePkg);
-
-            ProtoCommon.RecvPackageInfo pkgInfo = ProtoCommon.recvPackage(trackerSocket.getInputStream(),
-                    ProtoCommon.TRACKER_PROTO_CMD_RESP, 0);
-            this.errno = pkgInfo.errno;
-            return pkgInfo.errno == 0;
         }
 
         /**
@@ -909,14 +908,14 @@ namespace FastDFS.Client
          * @return true for success, false for fail
          */
         public bool deleteStorage(TrackerGroup trackerGroup,
-                                     String groupName, String storageIpAddr)
+                                  String groupName, String storageIpAddr)
         {
             int serverIndex;
             int notFoundCount;
             TrackerServer trackerServer;
 
             notFoundCount = 0;
-            for (serverIndex = 0; serverIndex < trackerGroup.tracker_servers.length; serverIndex++)
+            for (serverIndex = 0; serverIndex < trackerGroup.tracker_servers.Count; serverIndex++)
             {
                 try
                 {
@@ -924,7 +923,6 @@ namespace FastDFS.Client
                 }
                 catch (IOException ex)
                 {
-                    ex.printStackTrace(System.err);
                     this.errno = ProtoCommon.ECONNREFUSED;
                     return false;
                 }
@@ -943,7 +941,7 @@ namespace FastDFS.Client
                             return false;
                         }
                     }
-                    else if (storageStats.length == 0)
+                    else if (storageStats.Length == 0)
                     {
                         notFoundCount++;
                     }
@@ -962,19 +960,18 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
             }
 
-            if (notFoundCount == trackerGroup.tracker_servers.length)
+            if (notFoundCount == trackerGroup.tracker_servers.Count)
             {
                 this.errno = ProtoCommon.ERR_NO_ENOENT;
                 return false;
             }
 
             notFoundCount = 0;
-            for (serverIndex = 0; serverIndex < trackerGroup.tracker_servers.length; serverIndex++)
+            for (serverIndex = 0; serverIndex < trackerGroup.tracker_servers.Count; serverIndex++)
             {
                 try
                 {
@@ -982,10 +979,10 @@ namespace FastDFS.Client
                 }
                 catch (IOException ex)
                 {
-                    System.err.println("connect to server " +
-                                       trackerGroup.tracker_servers[serverIndex].getAddress().getHostAddress() + ":" +
-                                       trackerGroup.tracker_servers[serverIndex].getPort() + " fail");
-                    ex.printStackTrace(System.err);
+                    //System.err.println("connect to server " +
+                    //                   trackerGroup.tracker_servers[serverIndex].getAddress().getHostAddress() + ":" +
+                    //                   trackerGroup.tracker_servers[serverIndex].getPort() + " fail");
+                    //ex.printStackTrace(System.err);
                     this.errno = ProtoCommon.ECONNREFUSED;
                     return false;
                 }
@@ -1015,12 +1012,11 @@ namespace FastDFS.Client
                     }
                     catch (IOException ex1)
                     {
-                        ex1.printStackTrace();
                     }
                 }
             }
 
-            if (notFoundCount == trackerGroup.tracker_servers.length)
+            if (notFoundCount == trackerGroup.tracker_servers.Count)
             {
                 this.errno = ProtoCommon.ERR_NO_ENOENT;
                 return false;

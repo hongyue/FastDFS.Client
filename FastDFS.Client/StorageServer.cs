@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace FastDFS.Client
@@ -16,9 +17,9 @@ namespace FastDFS.Client
          * @param store_path the store path index on the storage server
          */
         public StorageServer(String ip_addr, int port, int store_path)
+                : base(ClientGlobal.getSocket(
+                        ip_addr, port), new IPEndPoint(IPAddress.Parse(ip_addr), port))
         {
-            super(ClientGlobal.getSocket(
-                    ip_addr, port), new InetSocketAddress(ip_addr, port));
             this.store_path_index = store_path;
         }
 
@@ -30,8 +31,9 @@ namespace FastDFS.Client
          * @param store_path the store path index on the storage server
          */
         public StorageServer(String ip_addr, int port, byte store_path)
+                : base(ClientGlobal.getSocket(
+                        ip_addr, port), new IPEndPoint(IPAddress.Parse(ip_addr), port))
         {
-            super(ClientGlobal.getSocket(ip_addr, port), new InetSocketAddress(ip_addr, port));
             if (store_path < 0)
             {
                 this.store_path_index = 256 + store_path;

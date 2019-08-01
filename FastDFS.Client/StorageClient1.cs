@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Text;
 
 namespace FastDFS.Client
@@ -12,14 +13,13 @@ namespace FastDFS.Client
  */
     public class StorageClient1 : StorageClient
     {
-        public static final String SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR = "/";
+        public static readonly String SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR = "/";
 
         /**
          * constructor
          */
-        public StorageClient1()
+        public StorageClient1() : base()
         {
-            super();
         }
 
         /**
@@ -29,20 +29,20 @@ namespace FastDFS.Client
          * @param storageServer the storage server, can be null
          */
         public StorageClient1(TrackerServer trackerServer, StorageServer storageServer)
+                : base(trackerServer, storageServer)
         {
-            super(trackerServer, storageServer);
         }
 
         public static byte split_file_id(String file_id, String[] results)
         {
-            int pos = file_id.indexOf(SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR);
-            if ((pos <= 0) || (pos == file_id.length() - 1))
+            int pos = file_id.IndexOf(SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR);
+            if ((pos <= 0) || (pos == file_id.Length - 1))
             {
                 return ProtoCommon.ERR_NO_EINVAL;
             }
 
-            results[0] = file_id.substring(0, pos); //group name
-            results[1] = file_id.substring(pos + 1); //file name
+            results[0] = file_id.Substring(0, pos); //group name
+            results[1] = file_id.Substring(pos + 1); //file name
             return 0;
         }
 
@@ -56,9 +56,9 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_file1(String local_filename, String file_ext_name,
-                                   NameValuePair[] meta_list)
+                                   NameValueCollection meta_list)
         {
-            String parts[] = this.upload_file(local_filename, file_ext_name, meta_list);
+            var parts = this.upload_file(local_filename, file_ext_name, meta_list);
             if (parts != null)
             {
                 return parts[0] + SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + parts[1];
@@ -80,9 +80,9 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_file1(String group_name, String local_filename, String file_ext_name,
-                                   NameValuePair[] meta_list)
+                                   NameValueCollection meta_list)
         {
-            String parts[] = this.upload_file(group_name, local_filename, file_ext_name, meta_list);
+            String[] parts = this.upload_file(group_name, local_filename, file_ext_name, meta_list);
             if (parts != null)
             {
                 return parts[0] + SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + parts[1];
@@ -103,9 +103,9 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_file1(byte[] file_buff, String file_ext_name,
-                                   NameValuePair[] meta_list)
+                                   NameValueCollection meta_list)
         {
-            String parts[] = this.upload_file(file_buff, file_ext_name, meta_list);
+            var parts = this.upload_file(file_buff, file_ext_name, meta_list);
             if (parts != null)
             {
                 return parts[0] + SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + parts[1];
@@ -127,9 +127,9 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_file1(String group_name, byte[] file_buff, String file_ext_name,
-                                   NameValuePair[] meta_list)
+                                   NameValueCollection meta_list)
         {
-            String parts[] = this.upload_file(group_name, file_buff, file_ext_name, meta_list);
+            var parts = this.upload_file(group_name, file_buff, file_ext_name, meta_list);
             if (parts != null)
             {
                 return parts[0] + SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + parts[1];
@@ -152,10 +152,10 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_file1(String group_name, long file_size,
-                                   UploadCallback callback, String file_ext_name,
-                                   NameValuePair[] meta_list)
+                                   IUploadCallback callback, String file_ext_name,
+                                   NameValueCollection meta_list)
         {
-            String parts[] = this.upload_file(group_name, file_size, callback, file_ext_name, meta_list);
+            var parts = this.upload_file(group_name, file_size, callback, file_ext_name, meta_list);
             if (parts != null)
             {
                 return parts[0] + SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + parts[1];
@@ -176,9 +176,9 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_appender_file1(String local_filename, String file_ext_name,
-                                            NameValuePair[] meta_list)
+                                            NameValueCollection meta_list)
         {
-            String parts[] = this.upload_appender_file(local_filename, file_ext_name, meta_list);
+            var parts = this.upload_appender_file(local_filename, file_ext_name, meta_list);
             if (parts != null)
             {
                 return parts[0] + SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + parts[1];
@@ -200,9 +200,9 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_appender_file1(String group_name, String local_filename, String file_ext_name,
-                                            NameValuePair[] meta_list)
+                                            NameValueCollection meta_list)
         {
-            String parts[] = this.upload_appender_file(group_name, local_filename, file_ext_name, meta_list);
+            var parts = this.upload_appender_file(group_name, local_filename, file_ext_name, meta_list);
             if (parts != null)
             {
                 return parts[0] + SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + parts[1];
@@ -223,9 +223,9 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_appender_file1(byte[] file_buff, String file_ext_name,
-                                            NameValuePair[] meta_list)
+                                            NameValueCollection meta_list)
         {
-            String parts[] = this.upload_appender_file(file_buff, file_ext_name, meta_list);
+            var parts = this.upload_appender_file(file_buff, file_ext_name, meta_list);
             if (parts != null)
             {
                 return parts[0] + SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + parts[1];
@@ -247,9 +247,9 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_appender_file1(String group_name, byte[] file_buff, String file_ext_name,
-                                            NameValuePair[] meta_list)
+                                            NameValueCollection meta_list)
         {
-            String parts[] = this.upload_appender_file(group_name, file_buff, file_ext_name, meta_list);
+            var parts = this.upload_appender_file(group_name, file_buff, file_ext_name, meta_list);
             if (parts != null)
             {
                 return parts[0] + SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + parts[1];
@@ -272,10 +272,10 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_appender_file1(String group_name, long file_size,
-                                            UploadCallback callback, String file_ext_name,
-                                            NameValuePair[] meta_list)
+                                            IUploadCallback callback, String file_ext_name,
+                                            NameValueCollection meta_list)
         {
-            String parts[] = this.upload_appender_file(group_name, file_size, callback, file_ext_name, meta_list);
+            var parts = this.upload_appender_file(group_name, file_size, callback, file_ext_name, meta_list);
             if (parts != null)
             {
                 return parts[0] + SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + parts[1];
@@ -298,10 +298,10 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_file1(String master_file_id, String prefix_name,
-                                   String local_filename, String file_ext_name, NameValuePair[] meta_list)
+                                   String local_filename, String file_ext_name, NameValueCollection meta_list)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(master_file_id, parts);
+            this.errno = split_file_id(master_file_id, parts);
             if (this.errno != 0)
             {
                 return null;
@@ -331,10 +331,10 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_file1(String master_file_id, String prefix_name,
-                                   byte[] file_buff, String file_ext_name, NameValuePair[] meta_list)
+                                   byte[] file_buff, String file_ext_name, NameValueCollection meta_list)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(master_file_id, parts);
+            this.errno = split_file_id(master_file_id, parts);
             if (this.errno != 0)
             {
                 return null;
@@ -364,10 +364,10 @@ namespace FastDFS.Client
          */
         public String upload_file1(String master_file_id, String prefix_name,
                                    byte[] file_buff, int offset, int length, String file_ext_name,
-                                   NameValuePair[] meta_list)
+                                   NameValueCollection meta_list)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(master_file_id, parts);
+            this.errno = split_file_id(master_file_id, parts);
             if (this.errno != 0)
             {
                 return null;
@@ -398,11 +398,11 @@ namespace FastDFS.Client
          * return null if fail
          */
         public String upload_file1(String master_file_id, String prefix_name, long file_size,
-                                   UploadCallback callback, String file_ext_name,
-                                   NameValuePair[] meta_list)
+                                   IUploadCallback callback, String file_ext_name,
+                                   NameValueCollection meta_list)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(master_file_id, parts);
+            this.errno = split_file_id(master_file_id, parts);
             if (this.errno != 0)
             {
                 return null;
@@ -429,7 +429,7 @@ namespace FastDFS.Client
         public int append_file1(String appender_file_id, String local_filename)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(appender_file_id, parts);
+            this.errno = split_file_id(appender_file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -448,7 +448,7 @@ namespace FastDFS.Client
         public int append_file1(String appender_file_id, byte[] file_buff)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(appender_file_id, parts);
+            this.errno = split_file_id(appender_file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -469,7 +469,7 @@ namespace FastDFS.Client
         public int append_file1(String appender_file_id, byte[] file_buff, int offset, int length)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(appender_file_id, parts);
+            this.errno = split_file_id(appender_file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -486,10 +486,10 @@ namespace FastDFS.Client
          * @param callback         the write data callback object
          * @return 0 for success, != 0 for error (error no)
          */
-        public int append_file1(String appender_file_id, long file_size, UploadCallback callback)
+        public int append_file1(String appender_file_id, long file_size, IUploadCallback callback)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(appender_file_id, parts);
+            this.errno = split_file_id(appender_file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -510,7 +510,7 @@ namespace FastDFS.Client
                                 long file_offset, String local_filename)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(appender_file_id, parts);
+            this.errno = split_file_id(appender_file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -531,7 +531,7 @@ namespace FastDFS.Client
                                 long file_offset, byte[] file_buff)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(appender_file_id, parts);
+            this.errno = split_file_id(appender_file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -554,7 +554,7 @@ namespace FastDFS.Client
                                 long file_offset, byte[] file_buff, int buffer_offset, int buffer_length)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(appender_file_id, parts);
+            this.errno = split_file_id(appender_file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -574,10 +574,10 @@ namespace FastDFS.Client
          * @return 0 for success, != 0 for error (error no)
          */
         public int modify_file1(String appender_file_id,
-                                long file_offset, long modify_size, UploadCallback callback)
+                                long file_offset, long modify_size, IUploadCallback callback)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(appender_file_id, parts);
+            this.errno = split_file_id(appender_file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -595,7 +595,7 @@ namespace FastDFS.Client
         public int delete_file1(String file_id)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(file_id, parts);
+            this.errno = split_file_id(file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -613,7 +613,7 @@ namespace FastDFS.Client
         public int truncate_file1(String appender_file_id)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(appender_file_id, parts);
+            this.errno = split_file_id(appender_file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -632,7 +632,7 @@ namespace FastDFS.Client
         public int truncate_file1(String appender_file_id, long truncated_file_size)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(appender_file_id, parts);
+            this.errno = split_file_id(appender_file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -649,8 +649,8 @@ namespace FastDFS.Client
          */
         public byte[] download_file1(String file_id)
         {
-            final long file_offset = 0;
-            final long download_bytes = 0;
+            long file_offset = 0;
+            long download_bytes = 0;
 
             return this.download_file1(file_id, file_offset, download_bytes);
         }
@@ -666,7 +666,7 @@ namespace FastDFS.Client
         public byte[] download_file1(String file_id, long file_offset, long download_bytes)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(file_id, parts);
+            this.errno = split_file_id(file_id, parts);
             if (this.errno != 0)
             {
                 return null;
@@ -684,8 +684,8 @@ namespace FastDFS.Client
          */
         public int download_file1(String file_id, String local_filename)
         {
-            final long file_offset = 0;
-            final long download_bytes = 0;
+            long file_offset = 0;
+            long download_bytes = 0;
 
             return this.download_file1(file_id, file_offset, download_bytes, local_filename);
         }
@@ -702,7 +702,7 @@ namespace FastDFS.Client
         public int download_file1(String file_id, long file_offset, long download_bytes, String local_filename)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(file_id, parts);
+            this.errno = split_file_id(file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -718,10 +718,10 @@ namespace FastDFS.Client
          * @param callback the callback object, will call callback.recv() when data arrive
          * @return 0 success, return none zero errno if fail
          */
-        public int download_file1(String file_id, DownloadCallback callback)
+        public int download_file1(String file_id, IDownloadCallback callback)
         {
-            final long file_offset = 0;
-            final long download_bytes = 0;
+             long file_offset = 0;
+             long download_bytes = 0;
 
             return this.download_file1(file_id, file_offset, download_bytes, callback);
         }
@@ -735,10 +735,10 @@ namespace FastDFS.Client
          * @param callback       the callback object, will call callback.recv() when data arrive
          * @return 0 success, return none zero errno if fail
          */
-        public int download_file1(String file_id, long file_offset, long download_bytes, DownloadCallback callback)
+        public int download_file1(String file_id, long file_offset, long download_bytes, IDownloadCallback callback)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(file_id, parts);
+            this.errno = split_file_id(file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -753,10 +753,10 @@ namespace FastDFS.Client
          * @param file_id the file id(including group name and filename)
          * @return meta info array, return null if fail
          */
-        public NameValuePair[] get_metadata1(String file_id)
+        public NameValueCollection get_metadata1(String file_id)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(file_id, parts);
+            this.errno = split_file_id(file_id, parts);
             if (this.errno != 0)
             {
                 return null;
@@ -777,10 +777,10 @@ namespace FastDFS.Client
          *                  the metadata item not exist, otherwise update it</li></ul>
          * @return 0 for success, !=0 fail (error code)
          */
-        public int set_metadata1(String file_id, NameValuePair[] meta_list, byte op_flag)
+        public int set_metadata1(String file_id, NameValueCollection meta_list, byte op_flag)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(file_id, parts);
+            this.errno = split_file_id(file_id, parts);
             if (this.errno != 0)
             {
                 return this.errno;
@@ -798,7 +798,7 @@ namespace FastDFS.Client
         public FileInfo query_file_info1(String file_id)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(file_id, parts);
+            this.errno = split_file_id(file_id, parts);
             if (this.errno != 0)
             {
                 return null;
@@ -816,7 +816,7 @@ namespace FastDFS.Client
         public FileInfo get_file_info1(String file_id)
         {
             String[] parts = new String[2];
-            this.errno = this.split_file_id(file_id, parts);
+            this.errno = split_file_id(file_id, parts);
             if (this.errno != 0)
             {
                 return null;
