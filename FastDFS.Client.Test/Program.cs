@@ -13,18 +13,9 @@ namespace FastDFS.Client.Test
     {
         static void Main(string[] args)
         {
-            var files = new[] {
-                @"d:\downloads\npp.7.7.Installer.exe",
-                @"d:\downloads\AxureRP-Setup.exe",
-                @"d:\downloads\ChromeStandaloneSetup64.exe",
-                @"d:\downloads\FiddlerSetup-5.0.20173.50948.exe",
-                @"d:\downloads\innosetup-qsp-6.0.2.exe",
-                @"d:\downloads\ndp48-x86-x64-allos-chs.exe",
-                @"d:\downloads\Simplified Chinese Pin-Yin Conversion Library Document.chm",
-                @"d:\downloads\XamlpadX 4.0.exe",
-                @"d:\downloads\ZXing.Net.0.16.4.0.zip",
-                @"d:\downloads\LINQPad5Setup.exe",
-                @"d:\downloads\depends22_x64.zip"
+            var files = new[]
+            {
+                ""
             };
 
             ClientGlobal.init("fdfs_client.json");
