@@ -41,10 +41,18 @@ namespace FastDFS.Client
         {
         }
 
-        public static void init(String conf_filename)
+        public static void InitFromFile(string conf_filename)
         {
-            var jsonConfig = JObject.Parse(File.ReadAllText(conf_filename));
+            InitInternal(JObject.Parse(File.ReadAllText(conf_filename)));
+        }
 
+        public static void InitFromJson(string jsonConfig)
+        {
+            InitInternal(JObject.Parse(jsonConfig));
+        }
+
+        private static void InitInternal(JObject jsonConfig)
+        {
             string[] szTrackerServers;
             string[] parts;
 
@@ -69,7 +77,7 @@ namespace FastDFS.Client
             szTrackerServers = jsonConfig["tracker_servers"].Select(s => (string)s).ToArray();
             if (szTrackerServers == null)
             {
-                throw new FastDfsException($"item \"tracker_server\" in {conf_filename} not found");
+                throw new FastDfsException($"item \"tracker_server\" in config file not found");
             }
 
             var tracker_servers = new IPEndPoint[szTrackerServers.Length];

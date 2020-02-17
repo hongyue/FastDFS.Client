@@ -20,7 +20,7 @@ namespace FastDFS.Client.Test
                 "3.jpg",
             };
 
-            ClientGlobal.init("fdfs_client.json");
+            ClientGlobal.InitFromFile("fdfs_client.json");
             Console.WriteLine(ClientGlobal.configInfo());
 
             var trackerClient = new TrackerClient();
