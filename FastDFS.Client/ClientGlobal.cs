@@ -90,7 +90,8 @@ namespace FastDFS.Client
                             "the value of item \"tracker_server\" is invalid, the correct format is host:port");
                 }
 
-                tracker_servers[i] = new IPEndPoint(IPAddress.Parse(parts[0]), int.Parse(parts[1]));
+                var address = Dns.GetHostAddresses(parts[0]).First();
+                tracker_servers[i] = new IPEndPoint(address, int.Parse(parts[1]));
             }
 
             g_tracker_group = new TrackerGroup(tracker_servers);
