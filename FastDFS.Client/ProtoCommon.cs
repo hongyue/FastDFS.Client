@@ -36,6 +36,7 @@ namespace FastDFS.Client
         public const byte STORAGE_PROTO_CMD_APPEND_FILE = 24; //append file
         public const byte STORAGE_PROTO_CMD_MODIFY_FILE = 34; //modify appender file
         public const byte STORAGE_PROTO_CMD_TRUNCATE_FILE = 36; //truncate appender file
+        public const byte STORAGE_PROTO_CMD_REGENERATE_APPENDER_FILENAME = 38;  //rename appender file to normal file
         public const byte STORAGE_PROTO_CMD_RESP = TRACKER_PROTO_CMD_RESP;
         public const byte FDFS_STORAGE_STATUS_INIT = 0;
         public const byte FDFS_STORAGE_STATUS_WAIT_SYNC = 1;
