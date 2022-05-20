@@ -687,7 +687,7 @@ namespace FastDFS.Client
                 Array.Copy(appenderFilenameBytes, 0, wholePkg, offset, appenderFilenameBytes.Length);
                 offset += appenderFilenameBytes.Length;
 
-                var networkStream = new NetworkStream(connection);
+                using var networkStream = new NetworkStream(connection);
                 networkStream.Write(wholePkg, 0, wholePkg.Length);
 
                 var pkgInfo = ProtoCommon.recvPackage(networkStream, ProtoCommon.STORAGE_PROTO_CMD_RESP, -1);
@@ -717,14 +717,14 @@ namespace FastDFS.Client
             {
                 try
                 {
-                    connection?.Close();
+                    storageServer.close();
                 }
                 catch (IOException ex1)
                 {
                 }
                 finally
                 {
-                    connection = null;
+                    storageServer = null;
                 }
 
                 throw ex;
